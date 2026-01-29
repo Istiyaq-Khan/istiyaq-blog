@@ -4,42 +4,33 @@ import { Editor } from "@/components/editor/editor";
 import { PostSettings } from "@/components/editor/post-settings";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { createPost } from "@/lib/actions/blog";
+import { updatePost } from "@/lib/actions/blog";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import { IBlogPost } from "@/models/BlogPost";
+import { useToast } from "@/components/ui/use-toast";
 
-export default function NewPostPage() {
+export default function EditPostClient({ post: initialPost }: { post: any }) {
     const router = useRouter();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = useState(false);
-    const [post, setPost] = useState<Partial<IBlogPost>>({
-        title: "",
-        slug: "",
-        status: "draft",
-        blocks: [],
-        primaryTag: "General",
-        seo: {
-            metaTitle: "",
-            metaDescription: ""
-        }
-    });
+    const [post, setPost] = useState<Partial<IBlogPost>>(initialPost);
 
     const handleSave = async () => {
         setIsSaving(true);
-        const res = await createPost(post);
+        // Ensure _id is passed for update
+        const res = await updatePost((initialPost as any)._id, post);
         setIsSaving(false);
 
         if (res.success) {
             toast({
                 title: "Success",
-                description: "Post created successfully",
+                description: "Post updated successfully",
             });
-            router.push("/admin/posts");
+            router.refresh(); // Refresh server components
         } else {
             toast({
                 title: "Error",
-                description: "Failed to save post: " + res.message,
+                description: "Failed to update post: " + res.message,
                 variant: "destructive",
             });
         }

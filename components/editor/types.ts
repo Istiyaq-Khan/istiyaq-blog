@@ -6,4 +6,5 @@ export interface IBlock {
     id: string; // Internal UI ID
     type: BlockType;
     content: IBlockContent;
+    order?: number;
 }

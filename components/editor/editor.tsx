@@ -10,8 +10,18 @@ function generateId() {
     return Math.random().toString(36).substr(2, 9);
 }
 
-export function Editor() {
-    const [blocks, setBlocks] = useState<IBlock[]>([]);
+interface EditorProps {
+    blocks: IBlock[];
+    onChange: (blocks: IBlock[]) => void;
+}
+
+export function Editor({ blocks, onChange }: EditorProps) {
+    // const [blocks, setBlocks] = useState<IBlock[]>([]); -> Removed local state
+
+    // Helper to update parent
+    const setBlocks = (newBlocks: IBlock[]) => {
+        onChange(newBlocks);
+    };
 
     const addBlock = (type: BlockType) => {
         const newBlock: IBlock = {

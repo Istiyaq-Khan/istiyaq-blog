@@ -1,9 +1,10 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IBlock {
+    id: string;
     type: 'heading' | 'paragraph' | 'image' | 'code' | 'quote' | 'callout';
     content: any;
-    order: number;
+    order?: number;
 }
 
 export interface IBlogPost extends Document {
@@ -35,9 +36,10 @@ export interface IBlogPost extends Document {
 }
 
 const BlockSchema = new Schema<IBlock>({
+    id: { type: String, required: true },
     type: { type: String, required: true, enum: ['heading', 'paragraph', 'image', 'code', 'quote', 'callout'] },
     content: { type: Schema.Types.Mixed, required: true },
-    order: { type: Number, required: true }
+    order: { type: Number }
 }, { _id: false });
 
 const BlogPostSchema = new Schema<IBlogPost>({
