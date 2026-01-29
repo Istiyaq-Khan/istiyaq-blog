@@ -2,6 +2,7 @@
 
 import connectDB from "@/lib/db";
 import BlogPost, { IBlogPost } from "@/models/BlogPost";
+import Settings, { ISettings } from "@/models/Settings";
 import { revalidatePath } from "next/cache";
 
 // --- Types ---
@@ -29,17 +30,17 @@ export async function getDashboardStats() {
     }
 }
 
-export async function getPosts(page: number = 1, limit: number = 10) {
+export async function getPosts(page: number = 1, limit: number = 10, filter: any = {}) {
     try {
         await connectDB();
         const skip = (page - 1) * limit;
-        const posts = await BlogPost.find()
+        const posts = await BlogPost.find(filter)
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
             .lean();
 
-        const total = await BlogPost.countDocuments();
+        const total = await BlogPost.countDocuments(filter);
 
         // Serialize specialized types (Date, ObjectId) for client components
         const serializedPosts = JSON.parse(JSON.stringify(posts));
@@ -104,5 +105,76 @@ export async function deletePost(id: string): Promise<ActionResponse> {
     } catch (error: any) {
         console.error("Failed to delete post", error);
         return { success: false, message: error.message || "Failed to delete post", error };
+    }
+}
+
+export async function getSettings() {
+    try {
+        await connectDB();
+        let settings = await Settings.findOne().lean();
+        if (!settings) {
+            settings = await Settings.create({});
+        }
+        return JSON.parse(JSON.stringify(settings));
+    } catch (error) {
+        console.error("Failed to fetch settings", error);
+        return null;
+    }
+}
+
+export async function updateSettings(data: Partial<ISettings>): Promise<ActionResponse> {
+    try {
+        await connectDB();
+        const settings = await Settings.findOne();
+        if (!settings) {
+            await Settings.create(data);
+        } else {
+            Object.assign(settings, data);
+            await settings.save();
+        }
+        revalidatePath("/");
+        return { success: true, message: "Settings updated successfully" };
+    } catch (error: any) {
+        console.error("Failed to update settings", error);
+        return { success: false, message: error.message || "Failed to update settings" };
+    }
+}
+
+export async function getMediaLibrary() {
+    try {
+        await connectDB();
+        // Aggregate all images from blog posts (cover images + block images)
+        const posts = await BlogPost.find({}, 'coverImage blocks').lean();
+
+        const images: { url: string; alt: string; source: string }[] = [];
+
+        posts.forEach((post: any) => {
+            if (post.coverImage?.url) {
+                images.push({
+                    url: post.coverImage.url,
+                    alt: post.coverImage.alt || 'Cover Image',
+                    source: `Post: ${post.title || post._id}`
+                });
+            }
+            if (post.blocks) {
+                post.blocks.forEach((block: any) => {
+                    if (block.type === 'image' && block.content?.url) {
+                        images.push({
+                            url: block.content.url,
+                            alt: block.content.alt || 'Content Image',
+                            source: `Post: ${post.title || post._id}`
+                        });
+                    }
+                });
+            }
+        });
+
+        // Deduplicate based on URL
+        const uniqueImages = Array.from(new Map(images.map(item => [item.url, item])).values());
+
+        return uniqueImages;
+    } catch (error) {
+        console.error("Failed to fetch media", error);
+        return [];
     }
 }
