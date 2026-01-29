@@ -3,6 +3,7 @@
 import connectDB from "@/lib/db";
 import BlogPost, { IBlogPost } from "@/models/BlogPost";
 import Settings, { ISettings } from "@/models/Settings";
+import Media from "@/models/Media";
 import { revalidatePath } from "next/cache";
 
 // --- Types ---
@@ -143,10 +144,19 @@ export async function updateSettings(data: Partial<ISettings>): Promise<ActionRe
 export async function getMediaLibrary() {
     try {
         await connectDB();
-        // Aggregate all images from blog posts (cover images + block images)
-        const posts = await BlogPost.find({}, 'coverImage blocks').lean();
 
-        const images: { url: string; alt: string; source: string }[] = [];
+        // 1. Fetch explicitly uploaded media
+        const uploadedMedia = await Media.find().sort({ createdAt: -1 }).lean();
+
+        const images: { url: string; alt: string; source: string; id?: string }[] = uploadedMedia.map((m: any) => ({
+            url: m.url,
+            alt: m.alt || m.filename,
+            source: 'Uploaded',
+            id: m._id.toString()
+        }));
+
+        // 2. Aggregate all images from blog posts
+        const posts = await BlogPost.find({}, 'coverImage blocks title').lean();
 
         posts.forEach((post: any) => {
             if (post.coverImage?.url) {
@@ -169,10 +179,18 @@ export async function getMediaLibrary() {
             }
         });
 
-        // Deduplicate based on URL
-        const uniqueImages = Array.from(new Map(images.map(item => [item.url, item])).values());
+        // Deduplicate based on URL (prefer the 'Uploaded' one if duplicate exists)
+        const uniqueMap = new Map();
+        images.forEach(img => {
+            if (!uniqueMap.has(img.url)) {
+                uniqueMap.set(img.url, img);
+            } else if (img.source === "Uploaded") {
+                // Overwrite if we find an uploaded record for the same URL, as it might have more metadata
+                uniqueMap.set(img.url, img);
+            }
+        });
 
-        return uniqueImages;
+        return Array.from(uniqueMap.values());
     } catch (error) {
         console.error("Failed to fetch media", error);
         return [];

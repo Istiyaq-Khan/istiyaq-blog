@@ -1,8 +1,8 @@
 import { getMediaLibrary } from "@/lib/actions/blog";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Upload } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
+
+import { UploadButton } from "./upload-button";
 
 export default async function MediaPage() {
     const images = await getMediaLibrary();
@@ -11,10 +11,7 @@ export default async function MediaPage() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <h1 className="font-heading text-3xl font-bold">Media Library</h1>
-                <Button disabled>
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload (Coming Soon)
-                </Button>
+                <UploadButton />
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
