@@ -379,6 +379,15 @@ export default function AboutPage() {
                                 <ExternalLink className="h-5 w-5 group-hover:text-primary transition-colors" />
                                 <span className="font-medium">Devpost</span>
                             </Link>
+                            <Link
+                                href="https://istiyaq.vercel.app"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center gap-2 p-4 rounded-lg bg-card border border-border hover:border-primary transition-colors group"
+                            >
+                                <ExternalLink className="h-5 w-5 group-hover:text-primary transition-colors" />
+                                <span className="font-medium">Portfolio</span>
+                            </Link>
                         </div>
 
                         <div className="mt-8">
@@ -400,7 +409,7 @@ export default function AboutPage() {
                         "@context": "https://schema.org",
                         "@type": "Person",
                         "name": "Istiyaq Khan Razin",
-                        "alternateName": "Istiyaq Khan",
+                        "alternateName": "Istiyaq Khan Razin",
                         "jobTitle": "Founder & AI Workflow Engineer",
                         "description": "Creator-Engineer specializing in AI workflow automation, content systems, and creative automation for YouTubers and solopreneurs",
                         "url": "https://istiyaq-blog.vercel.app",
@@ -432,7 +441,8 @@ export default function AboutPage() {
                             "https://x.com/istiyaqkhanr",
                             "https://www.youtube.com/@istiyaq-khan10",
                             "https://www.instagram.com/ist.iyaqkhan/",
-                            "https://devpost.com/Istiyaq-Khan"
+                            "https://devpost.com/Istiyaq-Khan",
+                            "https://istiyaq.vercel.app"
                         ],
                         "founder": {
                             "@type": "Organization",

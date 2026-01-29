@@ -50,19 +50,21 @@ export default function HomePage() {
                             <ScrollReveal delay={0.6} className="w-full max-w-md">
                                 <Card className="overflow-hidden border-none bg-gradient-to-br from-primary/10 to-secondary/5 p-1 ring-1 ring-white/10">
                                     <div className="aspect-[4/3] rounded-2xl bg-card/80 p-8 backdrop-blur-sm flex flex-col justify-between">
-                                        <div className="space-y-2">
-                                            <div className="inline-flex rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">
-                                                Featured Guide
+                                        <div className="space-y-4">
+                                            <div className="inline-flex rounded-full bg-secondary/20 px-3 py-1 text-xs font-medium text-secondary">
+                                                Featured Project
                                             </div>
-                                            <h3 className="font-heading text-2xl font-bold">
-                                                How I Automate Content Repurposing
-                                            </h3>
-                                            <p className="text-sm text-muted-foreground">
-                                                A deep dive into the n8n workflows that save me 10+ hours a week.
-                                            </p>
+                                            <div className="space-y-2">
+                                                <h3 className="font-heading text-2xl font-bold">
+                                                    YouTube Automation System
+                                                </h3>
+                                                <p className="text-sm text-muted-foreground leading-relaxed">
+                                                    An end-to-end pipeline that repurposes long-form content into shorts using n8n & Python.
+                                                </p>
+                                            </div>
                                         </div>
-                                        <Link href="/blog/automate-content-repurposing" className="inline-flex items-center text-sm font-medium text-secondary hover:underline">
-                                            Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                                        <Link href="/contact" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
+                                            Get This System <ArrowRight className="ml-2 h-4 w-4" />
                                         </Link>
                                     </div>
                                 </Card>

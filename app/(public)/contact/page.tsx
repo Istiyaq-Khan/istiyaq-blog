@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Github, Twitter, Linkedin, Youtube, Instagram, Mail } from "lucide-react";
+import { Github, Twitter, Linkedin, Youtube, Instagram, Mail, FolderKanban, Cpu } from "lucide-react";
 
 export const metadata = {
     title: "Contact | Istiyaq Khan",
@@ -18,6 +18,8 @@ const socialLinks = [
     { name: "X", href: "https://x.com/istiyaqkhanr", icon: Twitter },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/istiyaq-khan/", icon: Linkedin },
     { name: "Instagram", href: "https://www.instagram.com/ist.iyaqkhan/", icon: Instagram },
+    { name: "Devpost", href: "https://devpost.com/Istiyaq-Khan", icon: Cpu },
+    { name: "Portfolio", href: "https://istiyaq.vercel.app", icon: FolderKanban },
 ];
 
 export default function ContactPage() {
@@ -34,7 +36,7 @@ export default function ContactPage() {
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
                                 <Mail className="h-5 w-5" />
-                                <a href="mailto:contact@istiyaq.com" className="hover:text-primary">contact@istiyaq.com</a>
+                                <a href="mailto:razinkhan3245@gmail.com" className="hover:text-primary">razinkhan3245@gmail.com</a>
                                 {/* Placeholder email as none in docs */}
                             </div>
                         </div>
