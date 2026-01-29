@@ -15,6 +15,8 @@ const navItems = [
     { name: "Contact", href: "/contact" },
 ];
 
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+
 export function Navbar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
@@ -45,10 +47,12 @@ export function Navbar() {
                                 {item.name}
                             </Link>
                         ))}
+                        <ThemeToggle />
                     </nav>
 
                     {/* Mobile Menu Button */}
-                    <div className="md:hidden">
+                    <div className="md:hidden flex items-center gap-2">
+                        <ThemeToggle />
                         <Button
                             variant="ghost"
                             size="icon"
