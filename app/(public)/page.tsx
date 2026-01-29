@@ -126,18 +126,18 @@ export default function HomePage() {
                         "@type": "WebSite",
                         "name": "Istiyaq Khan",
                         "description": "AI Workflow Engineer & Content Systems Architect. Building automation systems for creators.",
-                        "url": "https://istiyaq.vercel.app",
+                        "url": "https://istiyaq-blog.vercel.app",
                         "author": {
                             "@type": "Person",
                             "name": "Istiyaq Khan Razin",
                             "jobTitle": "Founder & AI Workflow Engineer",
-                            "url": "https://istiyaq.vercel.app/about"
+                            "url": "https://istiyaq-blog.vercel.app/about"
                         },
                         "publisher": {
                             "@type": "Organization",
                             "name": "IKK Studio",
                             "description": "AI Workflow & Content Systems agency for creators",
-                            "url": "https://istiyaq.vercel.app"
+                            "url": "https://istiyaq-blog.vercel.app"
                         }
                     })
                 }}

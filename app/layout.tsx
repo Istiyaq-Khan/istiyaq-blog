@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://istiyaq.vercel.app"),
+  metadataBase: new URL("https://istiyaq-blog.vercel.app"),
   title: {
     default: "Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
     template: "%s | Istiyaq Khan Razin",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     "Sylhet developer",
     "Bangladesh tech",
   ],
-  authors: [{ name: "Istiyaq Khan Razin", url: "https://istiyaq.vercel.app" }],
+  authors: [{ name: "Istiyaq Khan Razin", url: "https://istiyaq-blog.vercel.app" }],
   creator: "Istiyaq Khan Razin",
   publisher: "Istiyaq Khan Razin",
   formatDetection: {
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://istiyaq.vercel.app",
+    url: "https://istiyaq-blog.vercel.app",
     siteName: "Istiyaq Khan Razin",
     title: "Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
     description: "Building AI-powered content systems and workflow automation for creators. Expert in n8n, Python, and creative automation.",
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   alternates: {
-    canonical: "https://istiyaq.vercel.app",
+    canonical: "https://istiyaq-blog.vercel.app",
   },
 };
 

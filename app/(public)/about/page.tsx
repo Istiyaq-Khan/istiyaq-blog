@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "About Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
         description: "Founder of IKK Studio. Building AI-powered content systems and workflow automation for creators. Expert in n8n, Python, and creative automation.",
-        url: "https://istiyaq.vercel.app/about",
+        url: "https://istiyaq-blog.vercel.app/about",
         siteName: "Istiyaq Khan",
         locale: "en_US",
         type: "profile",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
         creator: "@istiyaqkhanr",
     },
     alternates: {
-        canonical: "https://istiyaq.vercel.app/about",
+        canonical: "https://istiyaq-blog.vercel.app/about",
     },
 };
 
@@ -403,8 +403,8 @@ export default function AboutPage() {
                         "alternateName": "Istiyaq Khan",
                         "jobTitle": "Founder & AI Workflow Engineer",
                         "description": "Creator-Engineer specializing in AI workflow automation, content systems, and creative automation for YouTubers and solopreneurs",
-                        "url": "https://istiyaq.vercel.app",
-                        "image": "https://istiyaq.vercel.app/og-image.jpg",
+                        "url": "https://istiyaq-blog.vercel.app",
+                        "image": "https://istiyaq-blog.vercel.app/og-image.jpg",
                         "address": {
                             "@type": "PostalAddress",
                             "addressLocality": "Sylhet",

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Istiyaq Khan - Building Content Systems & AI Workflows",
         description: "I design systems that help creators publish faster, smarter, and consistently. Specializing in n8n automation, Python workflows, and creative content systems.",
-        url: "https://istiyaq.vercel.app",
+        url: "https://istiyaq-blog.vercel.app",
         type: "website",
     },
     twitter: {
