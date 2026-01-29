@@ -69,6 +69,19 @@ export async function getPost(id: string) {
     }
 }
 
+export async function getPostBySlug(slug: string) {
+    try {
+        await connectDB();
+        const post = await BlogPost.findOne({ slug }).lean();
+        if (!post) return null;
+        return JSON.parse(JSON.stringify(post));
+    } catch (error) {
+        console.error("Failed to fetch post by slug", error);
+        return null;
+    }
+}
+
+
 export async function createPost(data: Partial<IBlogPost>): Promise<ActionResponse> {
     try {
         await connectDB();

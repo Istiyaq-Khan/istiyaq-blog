@@ -1,37 +1,17 @@
-// notFound import removed (unused)
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { BlockRenderer } from "@/components/blog/block-renderer";
-import { IBlock } from "@/components/editor/types";
+import { getPostBySlug } from "@/lib/actions/blog";
+import { notFound } from "next/navigation";
 
-// This would normally fetch from DB based on params.slug
-// Mocking for "Real Data" demo
-async function getPost(slug: string) {
-    if (slug === 'automate-content-repurposing') {
-        return {
-            title: "How I Automated My Content Workflow",
-            date: "Oct 24, 2024",
-            category: "Automation",
-            blocks: [
-                { id: '1', type: 'paragraph', content: { text: "Creating content is hard. Repurposing it is harder. That's why I built a system." } },
-                { id: '2', type: 'heading', content: { level: 2, text: "The Problem" } },
-                { id: '3', type: 'paragraph', content: { text: "I was spending 10 hours a week just copying and pasting from YouTube description to Tweets to LinkedIn posts. It was manual grunt work." } },
-                { id: '4', type: 'heading', content: { level: 2, text: "The Solution: n8n" } },
-                { id: '5', type: 'paragraph', content: { text: "I set up a workflow that triggers whenever I move a card in Notion to 'Published'." } },
-                { id: '6', type: 'code', content: { language: 'js', code: "console.log('Workflow triggered');\n// Magic happens here" } }
-            ] as IBlock[]
-        }
-    }
-    return null;
-}
+export const revalidate = 60;
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
-    const post = await getPost(resolvedParams.slug);
+    const post = await getPostBySlug(resolvedParams.slug);
 
     if (!post) {
-        // Ideally show notFound(), but for demo maybe just show empty
-        return <div className="py-24 text-center">Post not found (This is a demo)</div>;
+        notFound();
     }
 
     return (
