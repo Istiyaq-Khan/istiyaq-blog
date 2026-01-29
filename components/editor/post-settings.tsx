@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Assuming I have simple textarea
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// Label import removed
+import { MediaPickerModal } from "@/components/admin/media-picker-modal";
+import { X } from "lucide-react";
 
 // Simple Label component if needed locally or just divs
 const LabelText = ({ children }: { children: React.ReactNode }) => (
@@ -24,6 +25,14 @@ interface PostSettingsProps {
 export function PostSettings({ data, onChange, onSave, isSaving }: PostSettingsProps) {
     const handleChange = (field: string, value: any) => {
         onChange({ ...data, [field]: value });
+    };
+
+    const handleImageSelect = (media: { url: string; alt: string }) => {
+        handleChange('coverImage', { url: media.url, alt: media.alt });
+    };
+
+    const removeCoverImage = () => {
+        handleChange('coverImage', { url: '', alt: '' });
     };
 
     return (
@@ -83,9 +92,40 @@ export function PostSettings({ data, onChange, onSave, isSaving }: PostSettingsP
                     <CardTitle className="text-lg">Featured Image</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="border-2 border-dashed border-border rounded-md p-6 flex flex-col items-center justify-center text-muted-foreground hover:bg-accent/50 cursor-pointer transition-colors">
-                        <span>Upload Image</span>
-                    </div>
+                    {data.coverImage?.url ? (
+                        <div className="relative aspect-video w-full overflow-hidden rounded-md border border-border group">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={data.coverImage.url} alt={data.coverImage.alt || 'Cover'} className="h-full w-full object-cover" />
+                            <Button
+                                variant="destructive"
+                                size="icon"
+                                className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={removeCoverImage}
+                            >
+                                <X className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    ) : (
+                        <MediaPickerModal
+                            onSelect={handleImageSelect}
+                            trigger={
+                                <div className="border-2 border-dashed border-border rounded-md p-6 flex flex-col items-center justify-center text-muted-foreground hover:bg-accent/50 cursor-pointer transition-colors h-32">
+                                    <span>Select Image</span>
+                                </div>
+                            }
+                        />
+                    )}
+
+                    {data.coverImage?.url && (
+                        <div className="mt-2">
+                            <LabelText>Alt Text</LabelText>
+                            <Input
+                                placeholder="Image description..."
+                                value={data.coverImage.alt || ''}
+                                onChange={(e) => handleChange('coverImage', { ...data.coverImage, alt: e.target.value })}
+                            />
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>

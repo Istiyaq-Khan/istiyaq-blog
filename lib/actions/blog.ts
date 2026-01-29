@@ -209,3 +209,18 @@ export async function getMediaLibrary() {
         return [];
     }
 }
+
+export async function updateMedia(id: string, data: Partial<{ alt: string }>): Promise<ActionResponse> {
+    try {
+        await connectDB();
+        const updatedMedia = await Media.findByIdAndUpdate(id, data, { new: true });
+        if (!updatedMedia) {
+             return { success: false, message: "Media not found" };
+        }
+        revalidatePath("/admin/media");
+        return { success: true, message: "Media updated successfully", data: JSON.parse(JSON.stringify(updatedMedia)) };
+    } catch (error: any) {
+        console.error("Failed to update media", error);
+        return { success: false, message: error.message || "Failed to update media" };
+    }
+}

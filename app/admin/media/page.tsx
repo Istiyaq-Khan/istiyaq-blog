@@ -1,8 +1,6 @@
 import { getMediaLibrary } from "@/lib/actions/blog";
-import { Card } from "@/components/ui/card";
-import Image from "next/image";
-
 import { UploadButton } from "./upload-button";
+import { MediaGridItem } from "@/components/admin/media-grid-item";
 
 export default async function MediaPage() {
     const images = await getMediaLibrary();
@@ -21,19 +19,7 @@ export default async function MediaPage() {
                     </div>
                 ) : (
                     images.map((img, i) => (
-                        <Card key={i} className="overflow-hidden group">
-                            <div className="aspect-square relative bg-muted">
-                                <Image
-                                    src={img.url}
-                                    alt={img.alt}
-                                    fill
-                                    className="object-cover transition-transform group-hover:scale-105"
-                                />
-                                <div className="absolute inset-x-0 bottom-0 bg-black/60 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <p className="text-xs text-white truncate">{img.source}</p>
-                                </div>
-                            </div>
-                        </Card>
+                        <MediaGridItem key={i} image={img} />
                     ))
                 )}
             </div>

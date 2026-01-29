@@ -1,0 +1,15 @@
+My name is Istiyaq Khan Razin, a Sylhet-based professional positioning myself at the intersection of creative media and technical automation. As the Founder of IKK Studio, a role I established in December 2025, I have moved beyond traditional freelance work to build a specialized agency focused on "AI Workflow & Content Systems." I solve efficiency problems for YouTubers and creators by designing automated pipelines that handle mundane tasks—such as repurposing long-form content into short-form clips, generating social media posts, and managing email automations—allowing them to focus on high-value creative work.
+
+My background combines hard technical skills with creative design. On the technical side, I utilize Python, n8n, and Generative AI to build custom workflow automations and "content pipelines." A robust creative skill set complements this technical foundation—skills I honed during my time as a freelance Designer and Video Editor (since February 2025), where I mastered Adobe Photoshop, After Effects, and Motion Graphics. I explicitly offer services that bridge these two worlds, such as YouTube Channel Management, Content SEO, and Branding, ensuring that I optimize content to be not only efficient but also visually compelling and discoverable.
+
+My educational background includes studies at Scholars Home, Sylhet, and I am actively expanding my expertise in Prompt Engineering and Marketing Automation. My profile indicates a clear future plan to scale my "Creator-Engineer" brand, moving from individual execution to system architecture. I am not just editing videos; I am building the systems that edit videos, as evidenced by my "Activity" post celebrating the launch of IKK Studio and my focus on serving "solopreneurs" and small businesses. This shift from freelancer to founder suggests a long-term strategy to productize my services, using AI to deliver high-volume, high-quality content output with minimal manual input.
+
+My Official Links
+
+YouTube: https://www.youtube.com/@istiyaq-khan10
+GitHub: https://github.com/Istiyaq-Khan
+X: https://x.com/istiyaqkhanr
+LinkedIn: https://www.linkedin.com/in/istiyaq-khan/
+Instagram: https://www.instagram.com/ist.iyaqkhan/
+Portfolio: https://istiyaq.vercel.app/
+Devpost: https://devpost.com/Istiyaq-Khan

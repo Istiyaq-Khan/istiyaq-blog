@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MediaPickerModal } from "@/components/admin/media-picker-modal";
+import { ImageIcon } from "lucide-react";
 
 interface BlockProps {
     block: IBlock;
@@ -100,11 +102,22 @@ export function ImageBlock({ block, updateBlock, ...props }: BlockProps) {
         <BlockWrapper block={block} updateBlock={updateBlock} {...props}>
             <div className="space-y-2">
                 <span className="text-xs font-medium text-muted-foreground uppercase">Image</span>
-                <Input
-                    placeholder="Image URL (https://...)"
-                    value={block.content.url || ""}
-                    onChange={(e) => updateBlock(block.id, { ...block.content, url: e.target.value })}
-                />
+                <div className="flex gap-2">
+                    <Input
+                        placeholder="Image URL (https://...)"
+                        value={block.content.url || ""}
+                        onChange={(e) => updateBlock(block.id, { ...block.content, url: e.target.value })}
+                        className="flex-1"
+                    />
+                    <MediaPickerModal
+                        onSelect={(media) => updateBlock(block.id, { ...block.content, url: media.url, alt: media.alt })}
+                        trigger={
+                            <Button variant="outline" size="icon" title="Select from Library">
+                                <ImageIcon className="h-4 w-4" />
+                            </Button>
+                        }
+                    />
+                </div>
                 <div className="grid grid-cols-2 gap-2">
                     <Input
                         placeholder="Alt Text (SEO)"
