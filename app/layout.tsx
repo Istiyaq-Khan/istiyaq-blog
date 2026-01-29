@@ -15,8 +15,82 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Istiyaq Khan",
-  description: "Personal Blog & Content System",
+  metadataBase: new URL("https://istiyaq.vercel.app"),
+  title: {
+    default: "Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
+    template: "%s | Istiyaq Khan Razin",
+  },
+  description: "Istiyaq Khan Razin is a Creator-Engineer specializing in AI workflow automation, content systems, and creative automation. Founder of IKK Studio, building automated content pipelines for YouTubers and solopreneurs using Python, n8n, and Generative AI.",
+  keywords: [
+    "Istiyaq Khan Razin",
+    "AI workflow automation",
+    "content systems",
+    "n8n workflows",
+    "creator engineer",
+    "IKK Studio",
+    "YouTube automation",
+    "marketing automation",
+    "Python automation",
+    "generative AI",
+    "content repurposing",
+    "video editing automation",
+    "solopreneur tools",
+    "Sylhet developer",
+    "Bangladesh tech",
+  ],
+  authors: [{ name: "Istiyaq Khan Razin", url: "https://istiyaq.vercel.app" }],
+  creator: "Istiyaq Khan Razin",
+  publisher: "Istiyaq Khan Razin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://istiyaq.vercel.app",
+    siteName: "Istiyaq Khan Razin",
+    title: "Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
+    description: "Building AI-powered content systems and workflow automation for creators. Expert in n8n, Python, and creative automation.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Istiyaq Khan - Creator × Engineer × System Builder",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
+    description: "Building AI-powered content systems and workflow automation for creators. Expert in n8n, Python, and creative automation.",
+    creator: "@istiyaqkhanr",
+    images: ["/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
+  },
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
+  alternates: {
+    canonical: "https://istiyaq.vercel.app",
+  },
 };
 
 export default function RootLayout({

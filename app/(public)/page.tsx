@@ -7,6 +7,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollReveal } from "@/components/gsap/scroll-reveal";
+import Head from "next/head";
 
 export default function HomePage() {
     return (
@@ -115,6 +116,32 @@ export default function HomePage() {
                     </div>
                 </Container>
             </Section>
+
+            {/* JSON-LD Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        "name": "Istiyaq Khan",
+                        "description": "AI Workflow Engineer & Content Systems Architect. Building automation systems for creators.",
+                        "url": "https://istiyaq.vercel.app",
+                        "author": {
+                            "@type": "Person",
+                            "name": "Istiyaq Khan Razin",
+                            "jobTitle": "Founder & AI Workflow Engineer",
+                            "url": "https://istiyaq.vercel.app/about"
+                        },
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "IKK Studio",
+                            "description": "AI Workflow & Content Systems agency for creators",
+                            "url": "https://istiyaq.vercel.app"
+                        }
+                    })
+                }}
+            />
         </>
     );
 }

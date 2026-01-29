@@ -1,15 +1,5 @@
 import { getPosts, deletePost } from "@/lib/actions/blog";
-import { Button } from "@/components/ui/button";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import Link from "next/link";
-import { Edit, Trash } from "lucide-react";
+import { PostsTableClient } from "@/components/admin/posts-table-client";
 import { revalidatePath } from "next/cache";
 
 export default async function PostsPage() {
@@ -22,67 +12,5 @@ export default async function PostsPage() {
         revalidatePath("/admin/posts");
     }
 
-    return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="font-heading text-3xl font-bold">Posts</h1>
-                <Link href="/admin/posts/new">
-                    <Button>Create Post</Button>
-                </Link>
-            </div>
-
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Created</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {posts.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center">
-                                    No posts found.
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            posts.map((post: any) => (
-                                <TableRow key={post._id}>
-                                    <TableCell className="font-medium">
-                                        {post.title}
-                                    </TableCell>
-                                    <TableCell>
-                                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${post.status === 'published' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                                            {post.status}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell>
-                                        {new Date(post.createdAt).toLocaleDateString()}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <Link href={`/admin/posts/${post._id}`}>
-                                                <Button variant="ghost" size="icon">
-                                                    <Edit className="h-4 w-4" />
-                                                </Button>
-                                            </Link>
-                                            <form action={deleteAction}>
-                                                <input type="hidden" name="id" value={post._id} />
-                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
-                                                    <Trash className="h-4 w-4" />
-                                                </Button>
-                                            </form>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
-        </div>
-    );
+    return <PostsTableClient posts={posts} deleteAction={deleteAction} />;
 }
