@@ -169,3 +169,53 @@ export function CodeBlock({ block, updateBlock, ...props }: BlockProps) {
         </BlockWrapper>
     );
 }
+
+export function QuoteBlock({ block, updateBlock, ...props }: BlockProps) {
+    return (
+        <BlockWrapper block={block} updateBlock={updateBlock} {...props}>
+            <div className="space-y-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase">Quote</span>
+                <Textarea
+                    placeholder="Quote text..."
+                    value={block.content.text || ""}
+                    onChange={(e) => updateBlock(block.id, { ...block.content, text: e.target.value })}
+                    className="min-h-[100px] border-l-4 border-l-primary/50 text-lg italic bg-muted/30"
+                />
+                <Input
+                    placeholder="Citation (optional)"
+                    value={block.content.citation || ""}
+                    onChange={(e) => updateBlock(block.id, { ...block.content, citation: e.target.value })}
+                    className="text-sm text-muted-foreground"
+                />
+            </div>
+        </BlockWrapper>
+    );
+}
+
+export function CalloutBlock({ block, updateBlock, ...props }: BlockProps) {
+    return (
+        <BlockWrapper block={block} updateBlock={updateBlock} {...props}>
+            <div className="space-y-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase">Callout</span>
+                <div className="flex gap-2">
+                    <select
+                        className="h-10 w-32 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        value={block.content.intent || "info"}
+                        onChange={(e) => updateBlock(block.id, { ...block.content, intent: e.target.value })}
+                    >
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                        <option value="success">Success</option>
+                        <option value="error">Error</option>
+                    </select>
+                    <Input
+                        placeholder="Callout text..."
+                        value={block.content.text || ""}
+                        onChange={(e) => updateBlock(block.id, { ...block.content, text: e.target.value })}
+                        className="flex-1"
+                    />
+                </div>
+            </div>
+        </BlockWrapper>
+    );
+}

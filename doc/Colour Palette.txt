@@ -1,4 +1,0 @@
-- **Matte Black** (Backgrounds): `#111111`
-- **Neon Purple** (Primary Accent): `#8B5CF6` (Represents creativity/After Effects)
-- **Acid Green** (Highlights): `#A3E635` (Use sparingly for "Call to Actions" or buttons)
-- **Vibe:** Cyberpunk, energetic, fits your interest in gaming (GTA/Forza) and motion design.

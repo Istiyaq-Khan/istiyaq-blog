@@ -18,6 +18,8 @@ export interface IBlogPost extends Document {
     primaryTag: string;
     secondaryTags: string[];
     intentTags: string[];
+    contentFormat: 'blocks' | 'markdown';
+    markdownContent?: string;
     blocks: IBlock[];
     readingTime: number;
     status: 'draft' | 'published';
@@ -53,6 +55,8 @@ const BlogPostSchema = new Schema<IBlogPost>({
     primaryTag: { type: String, required: true, index: true },
     secondaryTags: [{ type: String }],
     intentTags: [{ type: String }],
+    contentFormat: { type: String, enum: ['blocks', 'markdown'], default: 'blocks' },
+    markdownContent: { type: String },
     blocks: [BlockSchema],
     readingTime: { type: Number, default: 0 },
     status: { type: String, enum: ['draft', 'published'], default: 'draft', index: true },

@@ -48,14 +48,14 @@ export default function HomePage() {
                         {/* Featured Graphic / Card (Right Side) */}
                         <div className="flex items-center justify-center lg:justify-end">
                             <ScrollReveal delay={0.6} className="w-full max-w-md">
-                                <Card className="overflow-hidden border-none bg-gradient-to-br from-primary/10 to-secondary/5 p-1 ring-1 ring-white/10">
-                                    <div className="aspect-[4/3] rounded-2xl bg-card/80 p-8 backdrop-blur-sm flex flex-col justify-between">
+                                <Card className="overflow-hidden border-none bg-gradient-to-br from-primary/10 to-secondary/10 p-1 ring-1 ring-border/50 transition-all duration-500 hover:ring-primary/40 hover:shadow-[0_0_30px_-5px_rgba(var(--primary),0.3)] hover:-translate-y-1 group">
+                                    <div className="aspect-[4/3] rounded-2xl bg-card/90 p-8 backdrop-blur-md flex flex-col justify-between">
                                         <div className="space-y-4">
-                                            <div className="inline-flex rounded-full bg-secondary/20 px-3 py-1 text-xs font-medium text-secondary">
+                                            <div className="inline-flex rounded-full bg-secondary/20 px-3 py-1 text-xs font-semibold tracking-wider uppercase text-secondary">
                                                 Featured Project
                                             </div>
                                             <div className="space-y-2">
-                                                <h3 className="font-heading text-2xl font-bold">
+                                                <h3 className="font-heading text-2xl font-bold group-hover:text-primary transition-colors">
                                                     YouTube Automation System
                                                 </h3>
                                                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -63,8 +63,8 @@ export default function HomePage() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <Link href="/contact" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
-                                            Get This System <ArrowRight className="ml-2 h-4 w-4" />
+                                        <Link href="/contact" className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+                                            Get This System <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                         </Link>
                                     </div>
                                 </Card>
@@ -75,10 +75,10 @@ export default function HomePage() {
             </Section>
 
             {/* What I Do Section */}
-            <Section className="bg-muted/5">
+            <Section className="bg-gradient-to-b from-background to-muted/20 border-t border-border/50">
                 <Container>
                     <ScrollReveal>
-                        <h2 className="mb-12 font-heading text-3xl font-bold md:text-4xl text-center md:text-left">
+                        <h2 className="mb-12 font-heading text-3xl font-bold md:text-4xl text-center">
                             What I focus on
                         </h2>
                     </ScrollReveal>
@@ -104,9 +104,11 @@ export default function HomePage() {
                             }
                         ].map((item, i) => (
                             <ScrollReveal key={item.title} delay={i * 0.1}>
-                                <Card className="h-full transition-all hover:bg-muted/50">
+                                <Card className="h-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl bg-background/50 backdrop-blur-sm border-border/50 hover:border-border group">
                                     <CardContent className="p-8 space-y-4">
-                                        <item.icon className={`h-10 w-10 ${item.color}`} />
+                                        <div className={`p-3 rounded-2xl bg-muted/50 inline-block \${item.color} group-hover:scale-110 transition-transform duration-300`}>
+                                            <item.icon className="h-8 w-8" />
+                                        </div>
                                         <h3 className="font-heading text-xl font-bold">{item.title}</h3>
                                         <p className="text-muted-foreground leading-relaxed">
                                             {item.desc}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Editor } from "@/components/editor/editor";
+import { DualEditor } from "@/components/editor/dual-editor";
 import { PostSettings } from "@/components/editor/post-settings";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -58,9 +58,13 @@ export default function NewPostPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
-                    <Editor
+                    <DualEditor
+                        contentFormat={post.contentFormat || 'blocks'}
+                        setContentFormat={(format) => setPost({ ...post, contentFormat: format })}
                         blocks={post.blocks || []}
-                        onChange={(blocks) => setPost({ ...post, blocks })}
+                        setBlocks={(blocks) => setPost({ ...post, blocks })}
+                        markdownContent={post.markdownContent || ''}
+                        setMarkdownContent={(content) => setPost({ ...post, markdownContent: content })}
                     />
                 </div>
                 <div className="lg:col-span-1">

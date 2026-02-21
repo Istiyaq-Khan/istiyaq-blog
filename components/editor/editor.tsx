@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { IBlock, BlockType, IBlockContent } from "./types";
-import { HeadingBlock, ParagraphBlock, ImageBlock, CodeBlock } from "./blocks";
+import { HeadingBlock, ParagraphBlock, ImageBlock, CodeBlock, QuoteBlock, CalloutBlock } from "./blocks";
 import { Button } from "@/components/ui/button";
-import { Plus, Type, Heading, Image as ImageIcon, Code, Quote } from "lucide-react";
+import { Plus, Type, Heading, Image as ImageIcon, Code, Quote, AlertCircle } from "lucide-react";
 
 function generateId() {
     return Math.random().toString(36).substr(2, 9);
@@ -73,6 +73,8 @@ export function Editor({ blocks, onChange }: EditorProps) {
                         case 'paragraph': return <ParagraphBlock {...props} />;
                         case 'image': return <ImageBlock {...props} />;
                         case 'code': return <CodeBlock {...props} />;
+                        case 'quote': return <QuoteBlock {...props} />;
+                        case 'callout': return <CalloutBlock {...props} />;
                         default: return <div key={block.id}>Unknown block</div>;
                     }
                 })}
@@ -92,7 +94,12 @@ export function Editor({ blocks, onChange }: EditorProps) {
                 <Button variant="outline" onClick={() => addBlock('code')} className="gap-2 justify-start">
                     <Code className="h-4 w-4" /> Code
                 </Button>
-                {/* Add Quote/Callout later */}
+                <Button variant="outline" onClick={() => addBlock('quote')} className="gap-2 justify-start">
+                    <Quote className="h-4 w-4" /> Quote
+                </Button>
+                <Button variant="outline" onClick={() => addBlock('callout')} className="gap-2 justify-start">
+                    <AlertCircle className="h-4 w-4" /> Callout
+                </Button>
             </div>
         </div>
     );

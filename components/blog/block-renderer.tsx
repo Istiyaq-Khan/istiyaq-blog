@@ -64,6 +64,31 @@ export function BlockRenderer({ blocks }: { blocks: IBlock[] }) {
                                 </pre>
                             </div>
                         );
+                    case "quote":
+                        return (
+                            <blockquote key={block.id} className="border-l-4 border-primary pl-4 my-8 italic text-xl text-muted-foreground bg-muted/30 py-4 pr-4 rounded-r-lg">
+                                &ldquo;{block.content.text}&rdquo;
+                                {block.content.citation && (
+                                    <footer className="mt-2 text-sm text-foreground font-medium not-italic">
+                                        &mdash; {block.content.citation}
+                                    </footer>
+                                )}
+                            </blockquote>
+                        );
+                    case "callout":
+                        const intentConfig: Record<string, string> = {
+                            info: "bg-blue-500/10 border-blue-500/50 text-blue-500",
+                            warning: "bg-yellow-500/10 border-yellow-500/50 text-yellow-500",
+                            success: "bg-green-500/10 border-green-500/50 text-green-500",
+                            error: "bg-red-500/10 border-red-500/50 text-red-500",
+                        };
+                        const intentKey = block.content.intent || 'info';
+                        const theme = intentConfig[intentKey] || intentConfig.info;
+                        return (
+                            <div key={block.id} className={cn("my-6 rounded-lg border p-4", theme)}>
+                                {block.content.text}
+                            </div>
+                        );
                     default:
                         return null;
                 }
