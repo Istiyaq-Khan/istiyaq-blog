@@ -33,13 +33,13 @@
   /* Acid Green */
   --secondary-foreground: #000000;
 
-  --card: #161616;
+  --card: #1A1A1A;
   /* Slightly lighter than bg */
   --card-foreground: #EDEDED;
 
-  --muted: #9CA3AF;
-  /* Muted Gray */
-  --muted-foreground: #9ca3af;
+  --muted: #27272a;
+  /* Muted Gray / Darker */
+  --muted-foreground: #a1a1aa;
 
   --border: #27272a;
   --input: #27272a;
