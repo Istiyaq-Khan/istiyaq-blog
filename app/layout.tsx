@@ -85,6 +85,9 @@ export const metadata: Metadata = {
   verification: {
     google: "r7320kg3zhgfCc-dBs17Z5HYl2vblzN0-f5aIWVVp7M",
     yandex: "your-yandex-verification-code",
+    other: {
+      "google-adsense-account":"ca-pub-9280900149424904"
+    }
   },
   icons: {
     icon: "/icon.png",
