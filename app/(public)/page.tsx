@@ -26,31 +26,31 @@ export default async function HomePage() {
                             <ScrollReveal>
                                 <div className="space-y-4">
                                     <h1 className="font-heading text-5xl font-extrabold leading-[1.05] tracking-tighter sm:text-6xl md:text-7xl lg:text-[5.5rem] text-foreground">
-                                        AI AUTOMATION<br />
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-muted-foreground">& CONTENT</span><br />
+                                        NOTES ON<br />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-muted-foreground">ENGINEERING &</span><br />
                                         SYSTEMS.
                                     </h1>
                                     <p className="max-w-xl text-xl text-muted-foreground sm:text-2xl font-light tracking-wide">
-                                        Scale Your Growth,<br className="hidden sm:block" />
-                                        Automate Your Workflow.
+                                        My personal blog exploring AI,<br className="hidden sm:block" />
+                                        n8n automation, and code.
                                     </p>
                                 </div>
                             </ScrollReveal>
 
                             <ScrollReveal delay={0.2}>
                                 <div className="flex flex-wrap gap-6 items-center">
-                                    <Link href="/contact">
+                                    <Link href="/blog">
                                         <Button
                                             size="lg"
                                             className="relative group overflow-hidden rounded-full bg-secondary/90 hover:bg-secondary text-secondary-foreground px-10 py-7 text-lg font-semibold transition-all duration-300 shadow-[0_0_40px_-10px_rgba(163,230,53,0.5)] hover:shadow-[0_0_60px_-10px_rgba(163,230,53,0.7)] hover:scale-105"
                                         >
-                                            <span className="relative z-10">Get Started</span>
+                                            <span className="relative z-10">Read Latest Posts</span>
                                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                                         </Button>
                                     </Link>
-                                    <Link href="/blog" className="text-muted-foreground hover:text-foreground font-medium flex items-center gap-2 transition-colors group">
-                                        Read my notes <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </Link>
+                                    <a href="https://istiyaqkhan.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground font-medium flex items-center gap-2 transition-colors group">
+                                        View my Portfolio <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </a>
                                 </div>
                             </ScrollReveal>
 
@@ -58,7 +58,7 @@ export default async function HomePage() {
                             <ScrollReveal delay={0.3}>
                                 <div className="pt-8 border-t border-border/50 max-w-xl">
                                     <p className="text-sm text-muted-foreground leading-relaxed">
-                                        <strong className="text-foreground font-medium">ISTIYAQ KHAN RAZIN</strong> — Creator-Engineer and Founder of IKK Studio. Bridging Python, n8n, and Generative AI to build automated pipelines for creators. From editing videos to building the systems that edit videos.
+                                        <strong className="text-foreground font-medium">ISTIYAQ KHAN RAZIN</strong> — This is my digital garden. I document my learnings, write tutorials on Python and n8n, and share insights on building automated pipelines for creators. Welcome to my brain.
                                     </p>
                                 </div>
                             </ScrollReveal>
@@ -147,23 +147,28 @@ export default async function HomePage() {
                                         </CardContent>
                                     ) : (
                                         <>
+                                            <div className="absolute inset-0 z-20">
+                                                <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-20">
+                                                    <span className="sr-only">Read {post.title}</span>
+                                                </Link>
+                                            </div>
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/20 blur-3xl rounded-full" />
                                             <div className="inline-flex items-center rounded-full bg-secondary/10 border border-secondary/20 px-3 py-1 text-xs font-medium text-secondary uppercase tracking-wide max-w-max mb-6">
                                                 {post.primaryTag || "Article"}
                                             </div>
-                                            <h3 className="font-heading text-2xl font-bold mb-3 text-foreground line-clamp-2 group-hover:text-secondary transition-colors duration-300">
+                                            <h3 className="font-heading text-2xl font-bold mb-3 text-foreground line-clamp-2 group-hover:text-secondary transition-colors duration-300 relative z-30 pointer-events-none">
                                                 {post.title}
                                             </h3>
-                                            <p className="text-muted-foreground leading-relaxed mt-auto line-clamp-3">
+                                            <p className="text-muted-foreground leading-relaxed mt-auto line-clamp-3 relative z-30 pointer-events-none">
                                                 {post.excerpt}
                                             </p>
-                                            <div className="mt-6 flex items-center justify-between">
+                                            <div className="mt-6 flex items-center justify-between relative z-30 pointer-events-none">
                                                 <p className="text-xs font-medium text-muted-foreground">
                                                     {post.publishedAt ? format(new Date(post.publishedAt), 'MMM dd, yyyy') : format(new Date(post.createdAt), 'MMM dd, yyyy')}
                                                 </p>
-                                                <Link href={`/blog/${post.slug}`} className="text-secondary hover:text-secondary/80 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                                                <div className="text-secondary hover:text-secondary/80 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all cursor-pointer">
                                                     Read <ArrowRight className="w-4 h-4" />
-                                                </Link>
+                                                </div>
                                             </div>
                                         </>
                                     )}
@@ -182,10 +187,10 @@ export default async function HomePage() {
                     <div className="flex flex-col items-center justify-center text-center space-y-12">
                         <ScrollReveal>
                             <h2 className="font-heading text-3xl font-bold md:text-4xl text-foreground">
-                                Let's Build the Future of Content.
+                                Join the Conversation.
                             </h2>
                             <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                                Connect with me across platforms to see my latest systems, open-source projects, and insights on AI automation.
+                                I share my daily learnings, open-source projects, and new blog posts across my social platforms. Let's connect and build something cool.
                             </p>
                         </ScrollReveal>
 
@@ -221,14 +226,14 @@ export default async function HomePage() {
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "WebSite",
-                        "name": "Istiyaq Khan Razin",
-                        "description": "AI Workflow Engineer & Content Systems Architect. Founder of IKK Studio.",
+                        "@type": "Blog",
+                        "name": "Istiyaq Khan Razin | Personal Blog",
+                        "description": "Personal blog exploring AI workflow automation, content systems engineering, python scripts, and n8n tutorials.",
                         "url": "https://istiyaq-blog.vercel.app",
                         "author": {
                             "@type": "Person",
                             "name": "Istiyaq Khan Razin",
-                            "jobTitle": "Founder & AI Workflow Engineer",
+                            "jobTitle": "Creator-Engineer",
                             "url": "https://istiyaq-blog.vercel.app",
                             "sameAs": [
                                 "https://www.youtube.com/@istiyaq-khan10",
@@ -237,12 +242,6 @@ export default async function HomePage() {
                                 "https://www.linkedin.com/in/istiyaq-khan",
                                 "https://www.instagram.com/ist.iyaqkhan"
                             ]
-                        },
-                        "publisher": {
-                            "@type": "Organization",
-                            "name": "IKK Studio",
-                            "description": "AI Workflow & Content Systems agency for creators",
-                            "url": "https://istiyaq-blog.vercel.app"
                         }
                     })
                 }}
