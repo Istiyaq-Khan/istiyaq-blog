@@ -8,6 +8,21 @@ import { ScrollReveal } from "@/components/gsap/scroll-reveal";
 import { getPosts } from "@/lib/actions/blog";
 import { format } from "date-fns";
 
+function extractLongSnippet(post: any) {
+    let text = "";
+    if (post.contentFormat === 'markdown' && post.markdownContent) {
+        text = post.markdownContent.replace(/[#*`_\[\]()>-]/g, '').trim();
+    } else if (post.blocks && post.blocks && post.blocks.length > 0) {
+        const paragraphs = post.blocks.filter((b: any) => b.type === 'paragraph');
+        text = paragraphs.map((b: any) => b.content).join(' ').replace(/<[^>]*>?/gm, '');
+    }
+
+    if (text) {
+        return text.substring(0, 800) + (text.length > 800 ? "..." : "");
+    }
+    return post.excerpt || "Dive into this article to discover new insights, breakdowns of complex systems, and practical tutorials for modern content automation.";
+}
+
 export default async function HomePage() {
     const { posts } = await getPosts(1, 3, { status: "published" });
     const recentPosts = posts || [];
@@ -122,15 +137,15 @@ export default async function HomePage() {
                                     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                     {i === 0 ? (
                                         <CardContent className="p-10 h-full flex flex-col justify-between relative z-10 w-full">
-                                            <div className="space-y-4 max-w-lg">
+                                            <div className="space-y-4 max-w-2xl">
                                                 <div className="inline-flex items-center rounded-full bg-primary/20 border border-primary/30 px-3 py-1 text-xs font-medium text-primary uppercase tracking-wide">
                                                     {post.primaryTag || "Featured"}
                                                 </div>
                                                 <h3 className="font-heading text-4xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300">
                                                     {post.title}
                                                 </h3>
-                                                <p className="text-lg text-muted-foreground line-clamp-3">
-                                                    {post.excerpt}
+                                                <p className="text-lg text-muted-foreground line-clamp-[8]">
+                                                    {extractLongSnippet(post)}
                                                 </p>
                                                 <p className="text-sm font-medium text-muted-foreground pt-2">
                                                     {post.publishedAt ? format(new Date(post.publishedAt), 'MMM dd, yyyy') : format(new Date(post.createdAt), 'MMM dd, yyyy')}
