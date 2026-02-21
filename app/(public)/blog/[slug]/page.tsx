@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { AdSense } from "@/components/google-adsense";
 
 import { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
 export const revalidate = 60;
 
@@ -166,6 +167,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     })
                 }}
             />
+            <Analytics />
         </article>
     );
 }

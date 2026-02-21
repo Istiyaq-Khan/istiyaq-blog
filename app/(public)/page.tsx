@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 import { ArrowRight, Bot, PlaySquare, Workflow, RefreshCw, Github, Twitter, Linkedin, Instagram, MonitorPlay } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
@@ -261,6 +262,7 @@ export default async function HomePage() {
                     })
                 }}
             />
+            <Analytics />
         </div>
     );
 }
