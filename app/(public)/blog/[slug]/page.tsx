@@ -1,9 +1,9 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { BlockRenderer } from "@/components/blog/block-renderer";
+import { MarkdownRenderer } from "@/components/blog/markdown-renderer";
 import { getPostBySlug } from "@/lib/actions/blog";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { format } from "date-fns";
 import { AdSense } from "@/components/google-adsense";
@@ -109,9 +109,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <Container className="max-w-3xl">
                     <div className="prose prose-invert prose-lg md:prose-xl max-w-none text-muted-foreground prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-blockquote:border-primary prose-blockquote:bg-muted/30 prose-blockquote:py-2">
                         {post.contentFormat === 'markdown' ? (
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {post.markdownContent || ''}
-                            </ReactMarkdown>
+                            <MarkdownRenderer content={post.markdownContent || ''} />
                         ) : (
                             <BlockRenderer blocks={post.blocks} />
                         )}
@@ -134,6 +132,35 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     )}
                 </Container>
             </Section>
+
+            {/* JSON-LD Structured Data for advanced Article SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Article",
+                        headline: post.title,
+                        description: post.excerpt,
+                        image: post.coverImage?.url ? [post.coverImage.url] : [],
+                        datePublished: publishDate.toISOString(),
+                        dateModified: post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate.toISOString(),
+                        author: [{
+                            "@type": "Person",
+                            name: post.author?.name || 'Istiyaq Khan Razin',
+                            url: process.env.NEXT_PUBLIC_APP_URL || 'https://istiyaq-blog.vercel.app'
+                        }],
+                        publisher: {
+                            "@type": "Organization",
+                            name: 'Istiyaq Khan Razin',
+                            logo: {
+                                "@type": "ImageObject",
+                                url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://istiyaq-blog.vercel.app'}/icon.png`
+                            }
+                        }
+                    })
+                }}
+            />
         </article>
     );
 }

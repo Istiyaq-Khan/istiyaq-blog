@@ -103,6 +103,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`\${spaceGrotesk.variable} \${inter.variable} antialiased bg-background text-foreground`}
       >
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (

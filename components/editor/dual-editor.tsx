@@ -5,8 +5,7 @@ import { Editor } from "./editor";
 import { IBlock } from "./types";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { MarkdownRenderer } from "@/components/blog/markdown-renderer";
 
 interface DualEditorProps {
     contentFormat: 'blocks' | 'markdown';
@@ -60,10 +59,8 @@ export function DualEditor({
             {contentFormat === 'blocks' ? (
                 <Editor blocks={blocks} onChange={setBlocks} />
             ) : previewMode ? (
-                <div className="min-h-[500px] border rounded-md p-6 bg-card/50 overflow-auto prose prose-invert prose-lg max-w-none prose-headings:text-foreground prose-a:text-primary prose-strong:text-foreground">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {markdownContent || '*No content to preview*'}
-                    </ReactMarkdown>
+                <div className="min-h-[500px] border border-border/50 rounded-md p-6 bg-card/50 overflow-auto prose prose-invert prose-lg max-w-none prose-headings:text-foreground prose-a:text-primary prose-strong:text-foreground">
+                    <MarkdownRenderer content={markdownContent || '*No content to preview*'} />
                 </div>
             ) : (
                 <Textarea
