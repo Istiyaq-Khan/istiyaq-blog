@@ -115,9 +115,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         )}
                     </div>
 
-                    {/* Bottom Ad Unit */}
                     <div className="my-12">
-                        <AdSense dataAdSlot="1234567890" dataAdFormat="auto" />
+                        <AdSense
+                            dataAdSlot="2070570342"
+                            dataAdFormat="fluid"
+                            style={{ display: "block", textAlign: "center" }}
+                            className="adsbygoogle"
+                            dataFullWidthResponsive={true}
+                        />
                     </div>
 
                     {/* Tags */}

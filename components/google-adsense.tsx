@@ -7,6 +7,7 @@ interface AdSenseProps {
     style?: React.CSSProperties;
     dataAdSlot: string;
     dataAdFormat?: string;
+    dataAdLayout?: string;
     dataFullWidthResponsive?: boolean;
 }
 
@@ -15,6 +16,7 @@ export function AdSense({
     style = { display: "block" },
     dataAdSlot,
     dataAdFormat = "auto",
+    dataAdLayout,
     dataFullWidthResponsive = true
 }: AdSenseProps) {
     useEffect(() => {
@@ -45,6 +47,7 @@ export function AdSense({
             data-ad-client={clientId}
             data-ad-slot={dataAdSlot}
             data-ad-format={dataAdFormat}
+            {...(dataAdLayout ? { "data-ad-layout": dataAdLayout } : {})}
             data-full-width-responsive={dataFullWidthResponsive.toString()}
         />
     );
