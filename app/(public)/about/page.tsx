@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "About Istiyaq Khan Razin | AI Workflow Engineer & Content Systems Architect",
         description: "Founder of IKK Studio. Building AI-powered content systems and workflow automation for creators. Expert in n8n, Python, and creative automation.",
-        url: "https://istiyaq-blog.vercel.app/about",
+        url: "https://blog.istiyaq.com/about",
         siteName: "Istiyaq Khan",
         locale: "en_US",
         type: "profile",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
         creator: "@istiyaqkhanr",
     },
     alternates: {
-        canonical: "https://istiyaq-blog.vercel.app/about",
+        canonical: "https://blog.istiyaq.com/about",
     },
 };
 
@@ -380,7 +380,7 @@ export default function AboutPage() {
                                 <span className="font-medium">Devpost</span>
                             </Link>
                             <Link
-                                href="https://istiyaq.vercel.app"
+                                href="https://istiyaq.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-2 p-4 rounded-lg bg-card border border-border hover:border-primary transition-colors group"
@@ -412,8 +412,8 @@ export default function AboutPage() {
                         "alternateName": "Istiyaq Khan Razin",
                         "jobTitle": "Founder & AI Workflow Engineer",
                         "description": "Creator-Engineer specializing in AI workflow automation, content systems, and creative automation for YouTubers and solopreneurs",
-                        "url": "https://istiyaq-blog.vercel.app",
-                        "image": "https://istiyaq-blog.vercel.app/og-image.jpg",
+                        "url": "https://blog.istiyaq.com",
+                        "image": "https://blog.istiyaq.com/og-image.jpg",
                         "address": {
                             "@type": "PostalAddress",
                             "addressLocality": "Sylhet",
@@ -442,7 +442,7 @@ export default function AboutPage() {
                             "https://www.youtube.com/@istiyaq-khan10",
                             "https://www.instagram.com/ist.iyaqkhan/",
                             "https://devpost.com/Istiyaq-Khan",
-                            "https://istiyaq.vercel.app"
+                            "https://istiyaq.com"
                         ],
                         "founder": {
                             "@type": "Organization",

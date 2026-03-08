@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         return {};
     }
 
-    const url = process.env.NEXT_PUBLIC_APP_URL || 'https://istiyaq-blog.vercel.app';
+    const url = process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com';
 
     return {
         title: post.seo?.metaTitle || post.title,
@@ -154,14 +154,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         author: [{
                             "@type": "Person",
                             name: post.author?.name || 'Istiyaq Khan Razin',
-                            url: process.env.NEXT_PUBLIC_APP_URL || 'https://istiyaq-blog.vercel.app'
+                            url: process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com'
                         }],
                         publisher: {
                             "@type": "Organization",
                             name: 'Istiyaq Khan Razin',
                             logo: {
                                 "@type": "ImageObject",
-                                url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://istiyaq-blog.vercel.app'}/icon.png`
+                                url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com'}/icon.png`
                             }
                         }
                     })

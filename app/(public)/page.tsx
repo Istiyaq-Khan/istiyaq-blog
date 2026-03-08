@@ -245,12 +245,12 @@ export default async function HomePage() {
                         "@type": "Blog",
                         "name": "Istiyaq Khan Razin | Personal Blog",
                         "description": "Personal blog exploring AI workflow automation, content systems engineering, python scripts, and n8n tutorials.",
-                        "url": "https://istiyaq-blog.vercel.app",
+                        "url": "https://blog.istiyaq.com",
                         "author": {
                             "@type": "Person",
                             "name": "Istiyaq Khan Razin",
                             "jobTitle": "Creator-Engineer",
-                            "url": "https://istiyaq-blog.vercel.app",
+                            "url": "https://blog.istiyaq.com",
                             "sameAs": [
                                 "https://www.youtube.com/@istiyaq-khan10",
                                 "https://github.com/Istiyaq-Khan",

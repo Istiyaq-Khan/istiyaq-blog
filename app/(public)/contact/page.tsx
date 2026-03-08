@@ -19,7 +19,7 @@ const socialLinks = [
     { name: "LinkedIn", href: "https://www.linkedin.com/in/istiyaq-khan/", icon: Linkedin },
     { name: "Instagram", href: "https://www.instagram.com/ist.iyaqkhan/", icon: Instagram },
     { name: "Devpost", href: "https://devpost.com/Istiyaq-Khan", icon: Cpu },
-    { name: "Portfolio", href: "https://istiyaq.vercel.app", icon: FolderKanban },
+    { name: "Portfolio", href: "https://istiyaq.com", icon: FolderKanban },
 ];
 
 export default function ContactPage() {
