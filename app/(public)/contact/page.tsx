@@ -36,7 +36,7 @@ export default function ContactPage() {
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
                                 <Mail className="h-5 w-5" />
-                                <a href="mailto:razinkhan3245@gmail.com" className="hover:text-primary">razinkhan3245@gmail.com</a>
+                                <a href="mailto:hello@istiyaq.com" className="hover:text-primary">hello@istiyaq.com</a>
                                 {/* Placeholder email as none in docs */}
                             </div>
                         </div>
