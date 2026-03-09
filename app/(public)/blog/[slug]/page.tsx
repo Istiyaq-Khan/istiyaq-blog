@@ -110,16 +110,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
             <Section className={post.coverImage?.url ? "pt-0 md:pt-8" : "pt-8 md:pt-16"}>
                 <Container className="max-w-3xl">
-                    <div className="prose prose-invert prose-lg md:prose-xl max-w-none text-muted-foreground prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-blockquote:border-primary prose-blockquote:bg-muted/30 prose-blockquote:py-2">
-                        {post.contentFormat === 'markdown' ? (
-                            <MarkdownRenderer content={post.markdownContent || ''} />
-                        ) : (
-                            <BlockRenderer blocks={post.blocks} />
-                        )}
-                    </div>
-
-                    <div className="my-12">
-                        {/* Middle Ad */}
+                    <div className="my-8">
+                        {/* Middle Ad - Placed before post content */}
                         <AdSense
                             dataAdClient="ca-pub-9280900149424904"
                             dataAdSlot="6208907700"
@@ -129,6 +121,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             className="adsbygoogle"
                         />
                     </div>
+
+                    <div className="prose prose-invert prose-lg md:prose-xl max-w-none text-muted-foreground prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-blockquote:border-primary prose-blockquote:bg-muted/30 prose-blockquote:py-2">
+                        {post.contentFormat === 'markdown' ? (
+                            <MarkdownRenderer content={post.markdownContent || ''} />
+                        ) : (
+                            <BlockRenderer blocks={post.blocks} />
+                        )}
+                    </div>
+
+
 
                     {/* Tags */}
                     {post.secondaryTags?.length > 0 && (
@@ -149,18 +151,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             dataAdFormat="fluid"
                             dataAdLayout="in-article"
                             style={{ display: "block", textAlign: "center" }}
-                            className="adsbygoogle"
-                        />
-                    </div>
-
-                    <div className="mt-8">
-                        {/* Pop-up Ad */}
-                        <AdSense
-                            dataAdClient="ca-pub-9280900149424904"
-                            dataAdSlot="6536210760"
-                            dataAdFormat="auto"
-                            dataFullWidthResponsive={true}
-                            style={{ display: "block" }}
                             className="adsbygoogle"
                         />
                     </div>
