@@ -11,7 +11,7 @@ export const metadata: Metadata = {
         description: "I design systems that help creators publish faster, smarter, and consistently. Specializing in n8n automation, Python workflows, and creative content systems.",
         url: "https://blog.istiyaq.com",
         type: "website",
-    },
+    }, 
     twitter: {
         card: "summary_large_image",
         title: "Istiyaq Khan - Building Content Systems & AI Workflows",

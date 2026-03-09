@@ -10,6 +10,7 @@ import { AdSense } from "@/components/google-adsense";
 
 import { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 
 export const revalidate = 60;
 
@@ -53,6 +54,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     return (
         <article className="min-h-screen pb-16">
+            <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280900149424904" crossOrigin="anonymous" strategy="afterInteractive" />
             <header className="relative w-full bg-gradient-to-b from-muted/50 to-background pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden border-b border-border/50">
                 {/* Optional Hero Image Background blur */}
                 {post.coverImage?.url && (
@@ -117,12 +119,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
 
                     <div className="my-12">
+                        {/* Middle Ad */}
                         <AdSense
-                            dataAdSlot="2070570342"
+                            dataAdClient="ca-pub-9280900149424904"
+                            dataAdSlot="6208907700"
                             dataAdFormat="fluid"
+                            dataAdLayout="in-article"
                             style={{ display: "block", textAlign: "center" }}
                             className="adsbygoogle"
-                            dataFullWidthResponsive={true}
                         />
                     </div>
 
@@ -136,6 +140,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             ))}
                         </div>
                     )}
+
+                    <div className="my-12">
+                        {/* Down Ad */}
+                        <AdSense
+                            dataAdClient="ca-pub-9280900149424904"
+                            dataAdSlot="6208907700"
+                            dataAdFormat="fluid"
+                            dataAdLayout="in-article"
+                            style={{ display: "block", textAlign: "center" }}
+                            className="adsbygoogle"
+                        />
+                    </div>
+
+                    <div className="mt-8">
+                        {/* Pop-up Ad */}
+                        <AdSense
+                            dataAdClient="ca-pub-9280900149424904"
+                            dataAdSlot="6536210760"
+                            dataAdFormat="auto"
+                            dataFullWidthResponsive={true}
+                            style={{ display: "block" }}
+                            className="adsbygoogle"
+                        />
+                    </div>
                 </Container>
             </Section>
 

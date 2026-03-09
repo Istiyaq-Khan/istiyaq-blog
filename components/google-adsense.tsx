@@ -9,6 +9,7 @@ interface AdSenseProps {
     dataAdFormat?: string;
     dataAdLayout?: string;
     dataFullWidthResponsive?: boolean;
+    dataAdClient?: string;
 }
 
 export function AdSense({
@@ -17,7 +18,8 @@ export function AdSense({
     dataAdSlot,
     dataAdFormat = "auto",
     dataAdLayout,
-    dataFullWidthResponsive = true
+    dataFullWidthResponsive = true,
+    dataAdClient
 }: AdSenseProps) {
     useEffect(() => {
         try {
@@ -28,15 +30,7 @@ export function AdSense({
         }
     }, []);
 
-    if (process.env.NODE_ENV !== "production") {
-        return (
-            <div className={`bg-muted/30 border border-dashed border-border flex items-center justify-center text-muted-foreground py-8 text-sm rounded my-8 ${className}`} style={style}>
-                AdSense Placeholder (AdSlot: {dataAdSlot})
-            </div>
-        );
-    }
-
-    const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+    const clientId = dataAdClient || process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-9280900149424904";
 
     if (!clientId) return null;
 
