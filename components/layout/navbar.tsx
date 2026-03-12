@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils";
 const navItems = [
     { name: "Home", href: "/" },
     { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "About", href: "https://istiyaq.com/about" },
+    { name: "Work", href: "https://istiyaq.com/work" },
+    { name: "Contact", href: "https://istiyaq.com/contact" },
 ];
 
 import { ThemeToggle } from "@/components/ui/theme-toggle";
