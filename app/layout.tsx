@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
+import { Analytics } from "@vercel/analytics/next";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -114,6 +115,7 @@ export default function RootLayout({
         <Providers>
           <AnalyticsTracker />
           {children}
+          <Analytics />
         </Providers>
       </body>
     </html>
