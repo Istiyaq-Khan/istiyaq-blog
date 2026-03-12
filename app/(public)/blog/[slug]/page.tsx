@@ -11,6 +11,7 @@ import { AdSense } from "@/components/google-adsense";
 import { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
+import Link from "next/link";
 
 export const revalidate = 60;
 
@@ -64,9 +65,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
                 )}
                 <Container className="max-w-4xl relative z-10">
+                    <nav className="mb-6 flex justify-center items-center gap-3 text-sm text-muted-foreground font-medium w-full">
+                        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+                        <span className="opacity-50">/</span>
+                        <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
+                        <span className="opacity-50">/</span>
+                        <span className="text-foreground truncate max-w-[200px] sm:max-w-[300px]">{post.title}</span>
+                    </nav>
                     <div className="space-y-6 text-center">
                         <div className="flex justify-center items-center gap-2 text-sm font-medium uppercase tracking-wider text-primary">
-                            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full border border-primary/20">{post.primaryTag || 'General'}</span>
+                            <Link href={`/blog?tag=${encodeURIComponent(post.primaryTag || 'General')}`} className="bg-primary/10 text-primary px-3 py-1 rounded-full border border-primary/20 hover:bg-primary/20 transition-colors">
+                                {post.primaryTag || 'General'}
+                            </Link>
                             {post.readingTime > 0 && (
                                 <span className="text-muted-foreground">&bull; {post.readingTime} min read</span>
                             )}
@@ -136,9 +146,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     {post.secondaryTags?.length > 0 && (
                         <div className="mt-8 pt-8 border-t border-border/50 flex flex-wrap gap-2">
                             {post.secondaryTags.map((tag: string) => (
-                                <span key={tag} className="px-3 py-1 bg-muted/50 border border-border rounded-full text-xs font-medium text-muted-foreground uppercase tracking-wider hover:bg-muted transition-colors">
+                                <Link key={tag} href={`/blog?tag=${encodeURIComponent(tag)}`} className="px-3 py-1 bg-muted/50 border border-border rounded-full text-xs font-medium text-muted-foreground uppercase tracking-wider hover:bg-muted hover:text-foreground transition-colors">
                                     {tag}
-                                </span>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -163,7 +173,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "Article",
+                        "@type": "BlogPosting",
                         headline: post.title,
                         description: post.excerpt,
                         image: post.coverImage?.url ? [post.coverImage.url] : [],

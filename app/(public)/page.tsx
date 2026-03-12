@@ -24,6 +24,14 @@ function extractLongSnippet(post: any) {
     return post.excerpt || "Dive into this article to discover new insights, breakdowns of complex systems, and practical tutorials for modern content automation.";
 }
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    alternates: {
+        canonical: "https://blog.istiyaq.com",
+    },
+};
+
 export default async function HomePage() {
     const { posts } = await getPosts(1, 3, { status: "published" });
     const recentPosts = posts || [];

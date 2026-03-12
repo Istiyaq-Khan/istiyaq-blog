@@ -90,9 +90,6 @@ export const metadata: Metadata = {
     icon: "/icon.png",
     apple: "/apple-icon.png",
   },
-  alternates: {
-    canonical: "https://blog.istiyaq.com",
-  },
 };
 
 export default function RootLayout({
