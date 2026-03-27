@@ -10,7 +10,7 @@ import { AdSense } from "@/components/google-adsense";
 
 import { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import Script from "next/script";
+
 import Link from "next/link";
 
 export const revalidate = 60;
@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     return (
         <article className="min-h-screen pb-16">
-            <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280900149424904" crossOrigin="anonymous" strategy="afterInteractive" />
+
             <header className="relative w-full bg-gradient-to-b from-muted/50 to-background pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden border-b border-border/50">
                 {/* Optional Hero Image Background blur */}
                 {post.coverImage?.url && (
