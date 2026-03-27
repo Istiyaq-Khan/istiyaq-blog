@@ -19,9 +19,12 @@ export default function NewPostPage() {
         status: "draft",
         blocks: [],
         primaryTag: "General",
+        secondaryTags: [],
         seo: {
             metaTitle: "",
-            metaDescription: ""
+            metaDescription: "",
+            seoTags: [],
+            seoKeywords: []
         }
     });
 

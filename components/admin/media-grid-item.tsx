@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Pencil } from "lucide-react";
+import { Pencil, Copy, Check } from "lucide-react";
 import { updateMedia } from "@/lib/actions/blog";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -25,8 +25,23 @@ export function MediaGridItem({ image }: MediaItemProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [altText, setAltText] = useState(image.alt);
     const [isSaving, setIsSaving] = useState(false);
+    const [copied, setCopied] = useState<string | null>(null);
     const { toast } = useToast();
     const router = useRouter();
+
+    const markdownLink = `![${image.alt || "image"}](${image.url})`;
+    const rawUrl = image.url;
+
+    const handleCopy = async (text: string, label: string) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setCopied(label);
+            toast({ title: "Copied!", description: `${label} copied to clipboard` });
+            setTimeout(() => setCopied(null), 2000);
+        } catch {
+            toast({ title: "Error", description: "Failed to copy", variant: "destructive" });
+        }
+    };
 
     const handleSave = async () => {
         if (!image.id || image.source !== 'Uploaded') {
@@ -67,38 +82,93 @@ export function MediaGridItem({ image }: MediaItemProps) {
 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    {image.source === 'Uploaded' && (
-                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                            <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="gap-2 bg-secondary/80 hover:bg-secondary text-secondary-foreground border-none">
-                                    <Pencil className="h-3 w-3" /> Edit
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Edit Image Details</DialogTitle>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="alt" className="text-right">
-                                            Alt Text
-                                        </Label>
+                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" size="sm" className="gap-2 bg-secondary/80 hover:bg-secondary text-secondary-foreground border-none">
+                                <Pencil className="h-3 w-3" /> Edit
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-lg">
+                            <DialogHeader>
+                                <DialogTitle>Image Details</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 py-2">
+                                {/* Image Preview */}
+                                <div className="aspect-video relative rounded-lg overflow-hidden bg-muted border border-border">
+                                    <Image src={image.url} alt={image.alt} fill className="object-contain" />
+                                </div>
+
+                                {/* Markdown Link */}
+                                <div className="space-y-1.5">
+                                    <Label className="text-sm font-medium">Markdown Link</Label>
+                                    <div className="flex gap-2">
                                         <Input
-                                            id="alt"
-                                            value={altText}
-                                            onChange={(e) => setAltText(e.target.value)}
-                                            className="col-span-3"
+                                            readOnly
+                                            value={markdownLink}
+                                            className="font-mono text-xs bg-muted/50"
+                                            onClick={(e) => (e.target as HTMLInputElement).select()}
                                         />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="shrink-0 h-10 w-10"
+                                            onClick={() => handleCopy(markdownLink, "Markdown")}
+                                        >
+                                            {copied === "Markdown" ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                                        </Button>
                                     </div>
                                 </div>
-                                <DialogFooter>
+
+                                {/* Raw URL */}
+                                <div className="space-y-1.5">
+                                    <Label className="text-sm font-medium">Image URL</Label>
+                                    <div className="flex gap-2">
+                                        <Input
+                                            readOnly
+                                            value={rawUrl}
+                                            className="font-mono text-xs bg-muted/50"
+                                            onClick={(e) => (e.target as HTMLInputElement).select()}
+                                        />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="shrink-0 h-10 w-10"
+                                            onClick={() => handleCopy(rawUrl, "URL")}
+                                        >
+                                            {copied === "URL" ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                {/* Alt Text (editable only for uploaded) */}
+                                {image.source === 'Uploaded' && (
+                                    <div className="space-y-1.5">
+                                        <Label className="text-sm font-medium">Alt Text</Label>
+                                        <Input
+                                            value={altText}
+                                            onChange={(e) => setAltText(e.target.value)}
+                                            placeholder="Describe this image..."
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Source badge */}
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs font-medium text-muted-foreground">Source:</span>
+                                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${image.source === 'Uploaded' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
+                                        {image.source}
+                                    </span>
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                {image.source === 'Uploaded' && (
                                     <Button onClick={handleSave} disabled={isSaving}>
                                         {isSaving ? "Saving..." : "Save changes"}
                                     </Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                    )}
+                                )}
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 bg-black/60 p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">

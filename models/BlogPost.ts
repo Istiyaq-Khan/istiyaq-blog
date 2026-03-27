@@ -34,6 +34,8 @@ export interface IBlogPost extends Document {
         metaTitle: string;
         metaDescription: string;
         canonicalUrl?: string;
+        seoTags?: string[];
+        seoKeywords?: string[];
     };
 }
 
@@ -68,7 +70,9 @@ const BlogPostSchema = new Schema<IBlogPost>({
     seo: {
         metaTitle: { type: String },
         metaDescription: { type: String },
-        canonicalUrl: { type: String }
+        canonicalUrl: { type: String },
+        seoTags: [{ type: String }],
+        seoKeywords: [{ type: String }]
     }
 }, { timestamps: true });
 

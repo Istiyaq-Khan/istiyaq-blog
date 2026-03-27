@@ -25,20 +25,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const url = process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com';
 
+    const allKeywords = [
+        ...(post.seo?.seoKeywords || []),
+        ...(post.seo?.seoTags || []),
+        post.primaryTag,
+        ...(post.secondaryTags || [])
+    ].filter(Boolean);
+
     return {
         title: post.seo?.metaTitle || post.title,
         description: post.seo?.metaDescription || post.excerpt,
+        keywords: allKeywords.length > 0 ? allKeywords : undefined,
         alternates: {
-            canonical: `${url}/blog/${post.slug}`,
+            canonical: post.seo?.canonicalUrl || `${url}/blog/${post.slug}`,
         },
         openGraph: {
-            title: post.title,
-            description: post.excerpt,
+            title: post.seo?.metaTitle || post.title,
+            description: post.seo?.metaDescription || post.excerpt,
             url: `${url}/blog/${post.slug}`,
             type: "article",
             publishedTime: post.publishedAt || post.createdAt,
             authors: [post.author?.name || 'Istiyaq Khan Razin'],
             images: post.coverImage?.url ? [{ url: post.coverImage.url }] : [],
+            tags: post.seo?.seoTags || post.secondaryTags || [],
         }
     };
 }
@@ -175,10 +184,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         "@context": "https://schema.org",
                         "@type": "BlogPosting",
                         headline: post.title,
-                        description: post.excerpt,
+                        description: post.seo?.metaDescription || post.excerpt,
                         image: post.coverImage?.url ? [post.coverImage.url] : [],
                         datePublished: publishDate.toISOString(),
                         dateModified: post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate.toISOString(),
+                        keywords: [
+                            ...(post.seo?.seoKeywords || []),
+                            ...(post.seo?.seoTags || []),
+                            ...(post.secondaryTags || [])
+                        ].filter(Boolean).join(', ') || undefined,
                         author: [{
                             "@type": "Person",
                             name: post.author?.name || 'Istiyaq Khan Razin',
