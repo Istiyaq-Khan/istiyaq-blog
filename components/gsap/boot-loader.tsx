@@ -10,7 +10,8 @@ export function SystemBootLoader() {
     const [shouldRender, setShouldRender] = useState(true);
 
     useEffect(() => {
-        // Check if we've already shown the loader in this session
+        if (typeof window === "undefined") return;
+        
         const hasLoaded = sessionStorage.getItem("hasLoaded");
         if (hasLoaded) {
             setShouldRender(false);
@@ -20,43 +21,47 @@ export function SystemBootLoader() {
         const tl = gsap.timeline({
             onComplete: () => {
                 sessionStorage.setItem("hasLoaded", "true");
-                // Optional: Remove from DOM after animation
                 gsap.to(containerRef.current, {
-                    display: "none",
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        if (containerRef.current) {
+                            containerRef.current.style.display = "none";
+                        }
+                    },
                 });
             },
         });
 
-        const texts = ["Initializing systems...", "Loading content...", "Ready."];
+        const texts = ["Initializing...", "Loading...", "Ready."];
         let textIndex = 0;
 
-        // 1. Text Morphing
-        // We can simulate text updates manually or via tween
         const interval = setInterval(() => {
             textIndex++;
             if (textIndex < texts.length && textRef.current) {
                 textRef.current.innerText = texts[textIndex];
             }
-        }, 600);
+        }, 500);
 
-        // 2. Progress Bar
         tl.to(progressRef.current, {
             width: "100%",
-            duration: 1.5,
+            duration: 1.2,
             ease: "power2.inOut",
         })
             .to(textRef.current, {
                 opacity: 0,
-                duration: 0.2,
+                duration: 0.25,
+                ease: "power2.in",
             })
-            // 3. Slide Up Reveal
             .to(containerRef.current, {
                 y: "-100%",
-                duration: 0.8,
-                ease: "expo.inOut",
+                duration: 0.7,
+                ease: "power3.inOut",
+                delay: 0.15,
                 onStart: () => {
                     clearInterval(interval);
-                }
+                },
             });
 
         return () => clearInterval(interval);
@@ -67,17 +72,20 @@ export function SystemBootLoader() {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black text-white"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#111111]"
         >
-            <div className="w-64">
-                <div ref={textRef} className="mb-2 text-sm font-mono text-primary">
-                    Initializing systems...
-                </div>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-muted/20">
+            <div className="w-48">
+                <div className="h-px w-full bg-[#27272A] mb-3 overflow-hidden rounded-full">
                     <div
                         ref={progressRef}
-                        className="h-full w-0 bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]"
+                        className="h-full w-0 bg-[#8B5CF6]"
                     />
+                </div>
+                <div
+                    ref={textRef}
+                    className="text-xs font-mono text-[#A1A1AA] tracking-widest uppercase"
+                >
+                    Initializing...
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface AdSenseProps {
     className?: string;
@@ -21,10 +21,14 @@ export function AdSense({
     dataFullWidthResponsive = true,
     dataAdClient
 }: AdSenseProps) {
+    const adRef = useRef<HTMLModElement>(null);
+
     useEffect(() => {
         try {
-            // @ts-ignore
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            if (adRef.current && !adRef.current.getAttribute("data-ad-status")) {
+                // @ts-ignore
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            }
         } catch (error) {
             console.error("AdSense error:", error);
         }
@@ -36,6 +40,7 @@ export function AdSense({
 
     return (
         <ins
+            ref={adRef}
             className={`adsbygoogle ${className}`}
             style={style}
             data-ad-client={clientId}
