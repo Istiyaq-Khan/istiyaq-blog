@@ -7,7 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MediaPickerModal } from "@/components/admin/media-picker-modal";
-import { X, Plus, Search, Tags, Key } from "lucide-react";
+import { X, Plus, Search, Tags, Key, Sparkles } from "lucide-react";
+import { ThumbnailGenerator } from "@/components/admin/thumbnail-generator";
+import { uploadThumbnailBlob } from "@/lib/client/upload-thumbnail";
+import { useToast } from "@/components/ui/use-toast";
 
 // Simple Label component
 const LabelText = ({ children }: { children: React.ReactNode }) => (
@@ -127,9 +130,17 @@ interface PostSettingsProps {
     onChange: (data: any) => void;
     onSave: () => void;
     isSaving: boolean;
+    onThumbnailBlobChange?: (blob: Blob | null) => void;
 }
 
-export function PostSettings({ data, onChange, onSave, isSaving }: PostSettingsProps) {
+export function PostSettings({
+    data,
+    onChange,
+    onSave,
+    isSaving,
+    onThumbnailBlobChange,
+}: PostSettingsProps) {
+    const { toast } = useToast();
     const handleChange = (field: string, value: any) => {
         onChange({ ...data, [field]: value });
     };
@@ -282,6 +293,95 @@ export function PostSettings({ data, onChange, onSave, isSaving }: PostSettingsP
                         onChange={(tags) => handleChange('secondaryTags', tags)}
                         placeholder="Add a display tag..."
                     />
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-lg flex items-center justify-between">
+                        <span className="flex items-center gap-2">
+                            <Sparkles className="h-4 w-4 text-primary" />
+                            Social Thumbnail (1200×630)
+                        </span>
+                        {data.thumbnail && (
+                            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                                Active
+                            </span>
+                        )}
+                    </CardTitle>
+                    <p className="text-xs text-muted-foreground mt-1">
+                        High-CTR canvas social card. Automatically re-rendered with 150ms debounce.
+                    </p>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <ThumbnailGenerator
+                        title={data.title || "Post Title"}
+                        category={data.primaryTag || "General"}
+                        readingTime={data.readingTime || 5}
+                        authorName={data.author?.name || "Istiyaq Khan Razin"}
+                        onBlobReady={(blob) => {
+                            if (onThumbnailBlobChange) {
+                                onThumbnailBlobChange(blob);
+                            }
+                        }}
+                        onApplyAsCover={async (blob) => {
+                            try {
+                                const uploadRes = await uploadThumbnailBlob(
+                                    blob,
+                                    data.slug || data.title || "post"
+                                );
+                                if (uploadRes.success && uploadRes.url) {
+                                    handleChange("coverImage", {
+                                        url: uploadRes.url,
+                                        alt: `${data.title || "Post"} Social Card`,
+                                    });
+                                    handleChange("thumbnail", uploadRes.url);
+                                    toast({
+                                        title: "Cover Image Applied",
+                                        description: "High-CTR WebP thumbnail uploaded and set as cover image.",
+                                    });
+                                } else {
+                                    toast({
+                                        title: "Upload Failed",
+                                        description: uploadRes.error || "Could not upload thumbnail.",
+                                        variant: "destructive",
+                                    });
+                                }
+                            } catch (err: any) {
+                                toast({
+                                    title: "Upload Error",
+                                    description: err.message,
+                                    variant: "destructive",
+                                });
+                            }
+                        }}
+                    />
+
+                    {data.thumbnail && (
+                        <div className="flex items-center justify-between rounded-md border border-border bg-surface-elevated p-2 text-xs">
+                            <span className="text-muted-foreground truncate max-w-[240px]">
+                                {data.thumbnail}
+                            </span>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 text-xs text-primary hover:text-primary/80"
+                                onClick={() => {
+                                    handleChange("coverImage", {
+                                        url: data.thumbnail,
+                                        alt: `${data.title || "Post"} Social Card`,
+                                    });
+                                    toast({
+                                        title: "Cover Image Updated",
+                                        description: "Featured cover set to active social thumbnail URL.",
+                                    });
+                                }}
+                            >
+                                Set as Cover
+                            </Button>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 

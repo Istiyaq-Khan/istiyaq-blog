@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         return {};
     }
 
-    const url = process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com';
 
     const allKeywords = [
         ...(post.seo?.seoKeywords || []),
@@ -33,23 +33,51 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         ...(post.secondaryTags || [])
     ].filter(Boolean);
 
+    const rawImageUrl = post.thumbnail || post.coverImage?.url;
+    const absoluteImageUrl = rawImageUrl
+        ? (rawImageUrl.startsWith("http") ? rawImageUrl : `${siteUrl}${rawImageUrl.startsWith("/") ? "" : "/"}${rawImageUrl}`)
+        : `${siteUrl}/icon.png`;
+
     return {
         title: post.seo?.metaTitle || post.title,
         description: post.seo?.metaDescription || post.excerpt,
         keywords: allKeywords.length > 0 ? allKeywords : undefined,
         alternates: {
-            canonical: post.seo?.canonicalUrl || `${url}/blog/${post.slug}`,
+            canonical: post.seo?.canonicalUrl || `${siteUrl}/blog/${post.slug}`,
         },
         openGraph: {
             title: post.seo?.metaTitle || post.title,
             description: post.seo?.metaDescription || post.excerpt,
-            url: `${url}/blog/${post.slug}`,
+            url: `${siteUrl}/blog/${post.slug}`,
             type: "article",
             publishedTime: post.publishedAt || post.createdAt,
             authors: [post.author?.name || 'Istiyaq Khan Razin'],
-            images: post.coverImage?.url ? [{ url: post.coverImage.url }] : [],
+            images: [
+                {
+                    url: absoluteImageUrl,
+                    width: 1200,
+                    height: 630,
+                    type: "image/webp",
+                    alt: post.coverImage?.alt || post.title,
+                }
+            ],
             tags: post.seo?.seoTags || post.secondaryTags || [],
-        }
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: post.seo?.metaTitle || post.title,
+            description: post.seo?.metaDescription || post.excerpt,
+            images: [absoluteImageUrl],
+        },
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                "max-image-preview": "large",
+            },
+        },
     };
 }
 
@@ -62,6 +90,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     }
 
     const publishDate = post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt || Date.now());
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://blog.istiyaq.com';
+    const rawImageUrl = post.thumbnail || post.coverImage?.url;
+    const structuredImageUrl = rawImageUrl
+        ? (rawImageUrl.startsWith("http") ? rawImageUrl : `${siteUrl}${rawImageUrl.startsWith("/") ? "" : "/"}${rawImageUrl}`)
+        : `${siteUrl}/icon.png`;
 
     return (
         <article className="min-h-screen pb-16 selection:bg-primary/30 selection:text-primary-foreground">
@@ -200,7 +233,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         "@type": "BlogPosting",
                         headline: post.title,
                         description: post.seo?.metaDescription || post.excerpt,
-                        image: post.coverImage?.url ? [post.coverImage.url] : [],
+                        image: [structuredImageUrl],
                         datePublished: publishDate.toISOString(),
                         dateModified: post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate.toISOString(),
                         keywords: [

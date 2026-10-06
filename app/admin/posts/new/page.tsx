@@ -5,6 +5,7 @@ import { PostSettings } from "@/components/editor/post-settings";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createPost } from "@/lib/actions/blog";
+import { uploadThumbnailBlob } from "@/lib/client/upload-thumbnail";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { IBlogPost } from "@/models/BlogPost";
@@ -13,6 +14,7 @@ export default function NewPostPage() {
     const router = useRouter();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = useState(false);
+    const [pendingThumbnailBlob, setPendingThumbnailBlob] = useState<Blob | null>(null);
     const [post, setPost] = useState<Partial<IBlogPost>>({
         title: "",
         slug: "",
@@ -30,7 +32,30 @@ export default function NewPostPage() {
 
     const handleSave = async () => {
         setIsSaving(true);
-        const res = await createPost(post);
+        const postToSave = { ...post };
+
+        // Transparently upload and attach generated social thumbnail
+        if (pendingThumbnailBlob) {
+            try {
+                const uploadRes = await uploadThumbnailBlob(
+                    pendingThumbnailBlob,
+                    postToSave.slug || postToSave.title || "post"
+                );
+                if (uploadRes.success && uploadRes.url) {
+                    postToSave.thumbnail = uploadRes.url;
+                    if (!postToSave.coverImage?.url) {
+                        postToSave.coverImage = {
+                            url: uploadRes.url,
+                            alt: `${postToSave.title || "Post"} Social Thumbnail`,
+                        };
+                    }
+                }
+            } catch (uploadErr) {
+                console.warn("Could not auto-upload thumbnail during post save:", uploadErr);
+            }
+        }
+
+        const res = await createPost(postToSave);
         setIsSaving(false);
 
         if (res.success) {
@@ -76,6 +101,7 @@ export default function NewPostPage() {
                         onChange={setPost}
                         onSave={handleSave}
                         isSaving={isSaving}
+                        onThumbnailBlobChange={setPendingThumbnailBlob}
                     />
                 </div>
             </div>

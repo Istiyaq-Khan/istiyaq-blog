@@ -15,6 +15,7 @@ export interface IBlogPost extends Document {
         url: string;
         alt: string;
     };
+    thumbnail?: string;
     primaryTag: string;
     secondaryTags: string[];
     intentTags: string[];
@@ -54,6 +55,7 @@ const BlogPostSchema = new Schema<IBlogPost>({
         url: { type: String },
         alt: { type: String }
     },
+    thumbnail: { type: String },
     primaryTag: { type: String, required: true, index: true },
     secondaryTags: [{ type: String }],
     intentTags: [{ type: String }],
