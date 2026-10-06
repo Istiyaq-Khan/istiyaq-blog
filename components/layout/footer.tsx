@@ -12,6 +12,7 @@ const socialLinks = [
 
 const footerLinks = [
     { label: "Blog", href: "/blog" },
+    { label: "Privacy", href: "/privacy" },
     { label: "About", href: "https://istiyaq.com/about" },
     { label: "Work", href: "https://istiyaq.com/work" },
     { label: "Contact", href: "https://istiyaq.com/contact" },

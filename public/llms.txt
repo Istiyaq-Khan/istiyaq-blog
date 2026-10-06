@@ -1,0 +1,26 @@
+# Istiyaq Khan Razin — Personal Blog
+
+> The personal technical blog of Istiyaq Khan Razin. Exploring AI workflow automation, content systems engineering, Python scripting, n8n orchestration, and building autonomous tools for creators and developers.
+
+## Core Topics & Technical Focus Areas
+
+- **AI Workflow Automation**: Building autonomous agentic pipelines, LLM-powered content systems, and automated production workflows.
+- **n8n Orchestration & Integration**: Designing webhook architectures, multi-app workflows, error handling, and self-hosted automation infrastructure.
+- **Python Systems & Scripting**: Production scripts, data transformation pipelines, API clients, and creator engineering tools.
+- **Creator Engineering & Tooling**: System architecture for scaling content production, research synthesis, batch publishing, and distribution analytics.
+- **Full-Stack Engineering**: Next.js (App Router), React, TypeScript, Tailwind CSS, and MongoDB database architecture.
+
+## Major Sections & Key URLs
+
+- [Home](https://blog.istiyaq.com/): Primary portal, featured highlights, systems philosophy, and selected projects.
+- [Articles & Blog](https://blog.istiyaq.com/blog): Complete archive of technical write-ups, tutorials, and workflow guides.
+- [Privacy Policy](https://blog.istiyaq.com/privacy): Privacy policy and data handling practices.
+- [XML Sitemap](https://blog.istiyaq.com/sitemap.xml): Machine-readable XML index of all published blog posts and public pages.
+- [Portfolio & Main Site](https://istiyaq.com): Istiyaq Khan's central portfolio and contact hub.
+
+## Verified Profiles & Social Proof
+
+- GitHub: https://github.com/Istiyaq-Khan
+- X (Twitter): https://x.com/istiyaqkhanr
+- LinkedIn: https://www.linkedin.com/in/istiyaq-khan/
+- YouTube: https://www.youtube.com/@istiyaq-khan10

@@ -12,6 +12,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://blog.istiyaq.com"),
+  alternates: {
+    canonical: "https://blog.istiyaq.com",
+  },
   title: {
     default: "Istiyaq Khan Razin | Personal Blog & AI Workflow Insights",
     template: "%s | Istiyaq Khan Blog",
@@ -48,10 +51,11 @@ export const metadata: Metadata = {
     description: "Read my latest articles on Python, n8n, generative AI, and building automated content systems.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Istiyaq Khan - Personal Blog",
+        type: "image/png",
+        alt: "Istiyaq Khan - Creator & Engineer",
       },
     ],
   },
@@ -60,7 +64,7 @@ export const metadata: Metadata = {
     title: "Istiyaq Khan Razin | Personal Blog & AI Workflow Insights",
     description: "Read my latest articles on Python, n8n, generative AI, and building automated content systems.",
     creator: "@istiyaqkhanr",
-    images: ["/og-image.jpg"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -75,7 +79,6 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "r7320kg3zhgfCc-dBs17Z5HYl2vblzN0-f5aIWVVp7M",
-    yandex: "your-yandex-verification-code",
     other: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ? {
       "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID
     } : {}
@@ -84,6 +87,35 @@ export const metadata: Metadata = {
     icon: "/icon.png",
     apple: "/apple-icon.png",
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://blog.istiyaq.com/#website",
+      url: "https://blog.istiyaq.com",
+      name: "Istiyaq Khan Razin - Personal Blog",
+      alternateName: "Istiyaq Blog",
+      description: "The personal blog of Istiyaq Khan Razin. Exploring AI workflow automation, content systems engineering, python scripts, n8n tutorials, and the journey of building tools for creators.",
+      inLanguage: "en",
+    },
+    {
+      "@type": "Person",
+      "@id": "https://blog.istiyaq.com/#person",
+      name: "Istiyaq Khan Razin",
+      alternateName: "Istiyaq Khan",
+      url: "https://blog.istiyaq.com",
+      jobTitle: "AI Workflow Engineer & Creator",
+      sameAs: [
+        "https://github.com/Istiyaq-Khan",
+        "https://x.com/istiyaqkhanr",
+        "https://www.linkedin.com/in/istiyaq-khan/",
+        "https://www.youtube.com/@istiyaq-khan10",
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -95,8 +127,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`\${spaceGrotesk.variable} \${inter.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} antialiased bg-background text-foreground`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <script
             async

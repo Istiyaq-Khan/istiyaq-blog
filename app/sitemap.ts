@@ -6,13 +6,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Static routes
     const routes = [
-        '',
-        '/blog',
+        { path: '', priority: 1.0, changeFrequency: 'weekly' as const },
+        { path: '/blog', priority: 0.8, changeFrequency: 'daily' as const },
+        { path: '/privacy', priority: 0.3, changeFrequency: 'monthly' as const },
     ].map((route) => ({
-        url: `${baseUrl}${route}`,
+        url: `${baseUrl}${route.path}`,
         lastModified: new Date(),
-        changeFrequency: 'monthly' as const,
-        priority: route === '' ? 1 : 0.8,
+        changeFrequency: route.changeFrequency,
+        priority: route.priority,
     }));
 
     // Fetch blog posts and add them to sitemap
