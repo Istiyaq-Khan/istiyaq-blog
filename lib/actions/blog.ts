@@ -161,12 +161,49 @@ export async function getMediaLibrary() {
         // 1. Fetch explicitly uploaded media
         const uploadedMedia = await Media.find().sort({ createdAt: -1 }).lean();
 
-        const images: { url: string; alt: string; source: string; id?: string }[] = uploadedMedia.map((m: any) => ({
-            url: m.url,
-            alt: m.alt || m.filename,
-            source: 'Uploaded',
-            id: m._id.toString()
-        }));
+        // System AI Portrait Assets (Preloaded for High-CTR Social Cards & Covers)
+        const systemAssets = [
+            {
+                url: "/assets/01_cyber_obsidian_tech_architect.jpg",
+                alt: "AI Portrait: Cyber Obsidian Tech Architect",
+                source: "System AI Asset",
+                id: "system-01-cyber-obsidian",
+            },
+            {
+                url: "/assets/02_solar_amber_authority_builder.jpg",
+                alt: "AI Portrait: Solar Amber Authority Builder",
+                source: "System AI Asset",
+                id: "system-02-solar-amber",
+            },
+            {
+                url: "/assets/03_electric_violet_ai_studio.jpg",
+                alt: "AI Portrait: Electric Violet AI Studio",
+                source: "System AI Asset",
+                id: "system-03-electric-violet",
+            },
+            {
+                url: "/assets/04_matrix_emerald_systems_engineer.jpg",
+                alt: "AI Portrait: Matrix Emerald Systems Engineer",
+                source: "System AI Asset",
+                id: "system-04-matrix-emerald",
+            },
+            {
+                url: "/assets/05_wide_split_composition.jpg",
+                alt: "AI Portrait: Wide 16:9 Split Composition",
+                source: "System AI Asset",
+                id: "system-05-wide-split",
+            },
+        ];
+
+        const images: { url: string; alt: string; source: string; id?: string }[] = [
+            ...systemAssets,
+            ...uploadedMedia.map((m: any) => ({
+                url: m.url,
+                alt: m.alt || m.filename,
+                source: "Uploaded",
+                id: m._id.toString(),
+            })),
+        ];
 
         // 2. Aggregate all images from blog posts
         const posts = await BlogPost.find({}, 'coverImage blocks title').lean();

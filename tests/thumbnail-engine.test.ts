@@ -8,7 +8,11 @@ import {
     generateSafeThumbnailFilename,
     MAX_THUMBNAIL_SIZE_BYTES,
 } from "../lib/thumbnail-security.ts";
-import { wrapAndClampText } from "../lib/thumbnail-canvas.ts";
+import {
+    wrapAndClampText,
+    THUMBNAIL_PRESETS,
+    AI_BACKGROUND_OPTIONS,
+} from "../lib/thumbnail-canvas.ts";
 
 describe("Thumbnail Security & Upload Validation Suite", () => {
     describe("1. Binary Magic Bytes Verification (Anti-MIME Spoofing)", () => {
@@ -183,3 +187,36 @@ describe("Canvas Text Wrapping & Clamping Engine", () => {
         });
     });
 });
+
+describe("AI Portrait Backgrounds & Preset Asset Integrity", () => {
+    test("every thumbnail preset defines a defaultBgUrl pointing to an existing file in public/", () => {
+        for (const [presetId, preset] of Object.entries(THUMBNAIL_PRESETS)) {
+            assert.ok(preset.defaultBgUrl, `Preset ${presetId} must have defaultBgUrl`);
+            const assetRelative = preset.defaultBgUrl.replace(/^\//, "");
+            const absolutePath = path.join(process.cwd(), "public", assetRelative.replace(/^assets\//, "assets/"));
+            assert.equal(
+                fs.existsSync(absolutePath),
+                true,
+                `Asset for preset ${presetId} must exist at ${absolutePath}`
+            );
+            const stats = fs.statSync(absolutePath);
+            assert.ok(stats.size > 10000, `Asset file ${absolutePath} must be non-empty image (> 10KB)`);
+        }
+    });
+
+    test("AI_BACKGROUND_OPTIONS contains 5 preloaded assets that all exist on disk", () => {
+        assert.equal(AI_BACKGROUND_OPTIONS.length, 5, "Must contain exactly 5 preloaded AI backgrounds");
+        for (const opt of AI_BACKGROUND_OPTIONS) {
+            const assetRelative = opt.url.replace(/^\//, "");
+            const absolutePath = path.join(process.cwd(), "public", assetRelative);
+            assert.equal(
+                fs.existsSync(absolutePath),
+                true,
+                `AI Background option ${opt.name} (${opt.url}) must exist at ${absolutePath}`
+            );
+            const stats = fs.statSync(absolutePath);
+            assert.ok(stats.size > 10000, `AI Background file ${absolutePath} must be > 10KB`);
+        }
+    });
+});
+

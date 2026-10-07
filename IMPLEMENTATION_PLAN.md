@@ -48,3 +48,20 @@
 - [x] Run typecheck (`npm run typecheck`) -> 0 errors
 - [x] Run linter (`npm run lint`) -> 0 errors
 - [x] Verify production build (`npm run build`) completion
+
+---
+
+## 5. Phase 2: AI Assets Integration (Images placed in public/assets)
+- Objective: Integrate the 5 AI-generated images (`/assets/01_cyber_obsidian_tech_architect.jpg`, `/assets/02_solar_amber_authority_builder.jpg`, `/assets/03_electric_violet_ai_studio.jpg`, `/assets/04_matrix_emerald_systems_engineer.jpg`, `/assets/05_wide_split_composition.jpg`) into the blog system.
+- Components to update:
+  - `lib/thumbnail-canvas.ts`: Map presets directly to default AI backgrounds, add `AI_BACKGROUND_OPTIONS`, implement `drawImageCover` for aspect ratio safety.
+  - `components/admin/thumbnail-generator.tsx`: Visual background selector cards with preview thumbnails, quick-apply chips, and active indicator.
+  - `lib/actions/blog.ts`: Include curated AI portrait assets in `getMediaLibrary()` for whole-CMS usage (covers, editor blocks).
+  - `tests/thumbnail-engine.test.ts`: Add test verifying asset resolution and image cover logic.
+
+### Progress Checklist Phase 2:
+- [x] Connect AI background assets to presets and exports in `lib/thumbnail-canvas.ts`
+- [x] Add visual AI background picker gallery in `components/admin/thumbnail-generator.tsx`
+- [x] Expose system AI assets in `getMediaLibrary()` in `lib/actions/blog.ts`
+- [x] Verify test suite (`npm test`) and typecheck (`npm run typecheck`)
+- [x] Verify production build (`npm run build`)

@@ -17,6 +17,7 @@ export interface ThumbnailPreset {
     badgeBg: string;
     badgeBorder: string;
     glowColor: string;
+    defaultBgUrl: string;
 }
 
 export const THUMBNAIL_PRESETS: Record<ThumbnailPresetId, ThumbnailPreset> = {
@@ -31,6 +32,7 @@ export const THUMBNAIL_PRESETS: Record<ThumbnailPresetId, ThumbnailPreset> = {
         badgeBg: "rgba(0, 240, 255, 0.12)",
         badgeBorder: "#00f0ff",
         glowColor: "rgba(0, 240, 255, 0.35)",
+        defaultBgUrl: "/assets/01_cyber_obsidian_tech_architect.jpg",
     },
     "solar-amber": {
         id: "solar-amber",
@@ -43,6 +45,7 @@ export const THUMBNAIL_PRESETS: Record<ThumbnailPresetId, ThumbnailPreset> = {
         badgeBg: "rgba(245, 158, 11, 0.12)",
         badgeBorder: "#f59e0b",
         glowColor: "rgba(245, 158, 11, 0.35)",
+        defaultBgUrl: "/assets/02_solar_amber_authority_builder.jpg",
     },
     "electric-violet": {
         id: "electric-violet",
@@ -55,6 +58,7 @@ export const THUMBNAIL_PRESETS: Record<ThumbnailPresetId, ThumbnailPreset> = {
         badgeBg: "rgba(168, 85, 247, 0.15)",
         badgeBorder: "#a855f7",
         glowColor: "rgba(168, 85, 247, 0.35)",
+        defaultBgUrl: "/assets/03_electric_violet_ai_studio.jpg",
     },
     "matrix-emerald": {
         id: "matrix-emerald",
@@ -67,8 +71,61 @@ export const THUMBNAIL_PRESETS: Record<ThumbnailPresetId, ThumbnailPreset> = {
         badgeBg: "rgba(16, 185, 129, 0.15)",
         badgeBorder: "#10b981",
         glowColor: "rgba(16, 185, 129, 0.35)",
+        defaultBgUrl: "/assets/04_matrix_emerald_systems_engineer.jpg",
     },
 };
+
+export interface AIBackgroundOption {
+    id: string;
+    name: string;
+    shortLabel: string;
+    description: string;
+    url: string;
+    presetId: ThumbnailPresetId;
+}
+
+export const AI_BACKGROUND_OPTIONS: AIBackgroundOption[] = [
+    {
+        id: "cyber-obsidian",
+        name: "Cyber Architect",
+        shortLabel: "Cyber",
+        description: "Electric Cyan rim light & dark tech void",
+        url: "/assets/01_cyber_obsidian_tech_architect.jpg",
+        presetId: "cyber-obsidian",
+    },
+    {
+        id: "solar-amber",
+        name: "Solar Authority",
+        shortLabel: "Solar",
+        description: "Solar amber rim light & executive charcoal",
+        url: "/assets/02_solar_amber_authority_builder.jpg",
+        presetId: "solar-amber",
+    },
+    {
+        id: "electric-violet",
+        name: "AI Studio",
+        shortLabel: "Violet",
+        description: "Electric violet & acid lime creative tech",
+        url: "/assets/03_electric_violet_ai_studio.jpg",
+        presetId: "electric-violet",
+    },
+    {
+        id: "matrix-emerald",
+        name: "Systems Engineer",
+        shortLabel: "Matrix",
+        description: "Matrix emerald / cyber lime & deep carbon",
+        url: "/assets/04_matrix_emerald_systems_engineer.jpg",
+        presetId: "matrix-emerald",
+    },
+    {
+        id: "wide-split",
+        name: "Wide 16:9 Split",
+        shortLabel: "Wide 16:9",
+        description: "Cinematic portrait left & negative space right",
+        url: "/assets/05_wide_split_composition.jpg",
+        presetId: "cyber-obsidian",
+    },
+];
 
 export interface ThumbnailOptions {
     title: string;
@@ -243,6 +300,38 @@ function loadImageSafe(src: string, timeoutMs = 2500): Promise<HTMLImageElement>
 }
 
 /**
+ * Draws an image with object-fit: cover scaling onto a target rectangle.
+ * Prevents stretching or squishing when source image aspect ratio differs from 1200x630.
+ */
+function drawImageCover(
+    ctx: CanvasRenderingContext2D,
+    img: HTMLImageElement,
+    x: number,
+    y: number,
+    w: number,
+    h: number
+): void {
+    const imgRatio = img.naturalWidth / img.naturalHeight;
+    const targetRatio = w / h;
+    let sWidth = img.naturalWidth;
+    let sHeight = img.naturalHeight;
+    let sx = 0;
+    let sy = 0;
+
+    if (imgRatio > targetRatio) {
+        // Source is wider: crop horizontal sides
+        sWidth = img.naturalHeight * targetRatio;
+        sx = (img.naturalWidth - sWidth) / 2;
+    } else {
+        // Source is taller: crop vertical top/bottom
+        sHeight = img.naturalWidth / targetRatio;
+        sy = (img.naturalHeight - sHeight) / 2;
+    }
+
+    ctx.drawImage(img, sx, sy, sWidth, sHeight, x, y, w, h);
+}
+
+/**
  * Renders the author portrait silhouette or stylish geometric fallback badge.
  */
 async function drawAuthorSilhouette(
@@ -387,18 +476,23 @@ export async function renderThumbnailToCanvas(
     // 0. Await web fonts
     await ensureFontsLoaded();
 
-    // 1. Render Background: Custom AI Generated BG OR Procedural Studio Silhouette
+    // 1. Render Background: Custom AI Generated BG OR Preset Default AI BG OR Procedural Studio Silhouette
+    const effectiveBgUrl =
+        options.customBgUrl === "none" || options.customBgUrl === "silhouette"
+            ? null
+            : (options.customBgUrl || preset.defaultBgUrl);
+
     let customBgLoaded = false;
-    if (options.customBgUrl) {
+    if (effectiveBgUrl) {
         try {
-            const bgImg = await loadImageSafe(options.customBgUrl);
-            ctx.drawImage(bgImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            const bgImg = await loadImageSafe(effectiveBgUrl);
+            drawImageCover(ctx, bgImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             customBgLoaded = true;
 
             // High-CTR split scrim: Keep subject on left vibrant, dark scrim on right for crisp typography
             const scrim = ctx.createLinearGradient(320, 0, CANVAS_WIDTH, 0);
             scrim.addColorStop(0, "rgba(0, 0, 0, 0)");
-            scrim.addColorStop(0.25, "rgba(0, 0, 0, 0.55)");
+            scrim.addColorStop(0.25, "rgba(0, 0, 0, 0.45)");
             scrim.addColorStop(0.65, preset.background + "ee");
             scrim.addColorStop(1, preset.background);
 
