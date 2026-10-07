@@ -1,0 +1,14 @@
+# PROMPT 5: COMPLETE WIDE 1200x630 SPLIT SOCIAL CARD BACKGROUND
+# Target Model: Gemini Imagen 3 / Google AI Studio / Midjourney
+# Use Case: Full ready-to-use YouTube & Social Card background ready for text overlay
+
+Ultra-wide 16:9 cinematic YouTube thumbnail background featuring a young South Asian male tech founder on the far left side of the frame.
+
+DETAILED COMPOSITION:
+- Left 33%: Upper torso and head portrait of the young male creator, wearing a black shirt, looking forward with confident focused expression, framed dramatically from shoulders up.
+- Middle & Right 67%: Seamlessly fades into a sleek, dark, uncluttered void (#0a0f1d dark navy or #0f0a1c deep purple-black) with subtle, low-opacity ambient volumetric fog and faint technological geometry in the background, designed specifically as an empty canvas for large bold text and badges.
+
+LIGHTING & SACCADIC FLOW (YOUTUBE THUMBNAIL PSYCHOLOGY):
+- Extreme edge separation: Bright neon rim lighting (choice of Electric Cyan #00f0ff or Electric Violet #a855f7) separating the creator from the dark background so the subject instantly pops on both dark and pure-white social media feeds.
+- High visual hierarchy: 2-focal-point design rule where the human face commands the initial saccadic glance on the left, leading natural eye movement into the empty right half.
+- Photorealistic 8k, cinematic camera lens, sharp focus on face, clean dark backdrop, professional high-CTR aesthetic.

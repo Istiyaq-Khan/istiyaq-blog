@@ -1,0 +1,18 @@
+# PROMPT 2: SOLAR AMBER (STRATEGIC BUILDER & HIGH AUTHORITY)
+# Target Model: Gemini Imagen 3 / Google AI Studio (Image Generation)
+# Style: Solar Amber (Golden Amber rim light, warm cinematic contrast, executive builder vibe)
+
+A prestigious, high-authority cinematic portrait of a young South Asian male tech entrepreneur and creator, early 20s, short black hair, clean-cut features, wearing a dark charcoal tech jacket or fitted black tee.
+
+COMPOSITION & FRAMING:
+- Positioned on the LEFT 30-35% of the frame, facing forward with a calm, commanding, intelligent expression looking straight into the camera lens.
+- The right 65% of the frame is dark, moody negative space blending into deep warm charcoal (#120c06 to #1c130a), perfect for overlaying headline typography.
+- Aspect ratio: 16:9 landscape format.
+
+LIGHTING & COLOR HARMONY:
+- Rich solar amber (#f59e0b) and warm golden edge rim light highlighting the contour of the head, neck, and shoulder.
+- Key light with warm 3200K studio tone giving healthy, crisp facial illumination and eye catchlights.
+- Background: Minimalist dark charcoal studio void with soft warm atmospheric dust motes or subtle out-of-focus golden light streaks.
+
+TECHNICAL QUALITY:
+- Hasselblad H6D-100c medium format portrait, 100mm portrait lens, f/2.0 aperture, creamy bokeh falloff, ultra-high dynamic range, hyper-detailed skin texture, editorial GQ Tech cover style, 8k render.

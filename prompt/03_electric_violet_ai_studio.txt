@@ -1,0 +1,18 @@
+# PROMPT 3: ELECTRIC VIOLET (AI WORKFLOW STUDIO - IKK MASTER BRAND)
+# Target Model: Gemini Imagen 3 / Google AI Studio (Image Generation)
+# Style: Electric Violet (Neon ultraviolet rim light, acid green secondary accent, futuristic AI builder aesthetic)
+
+A futuristic, cutting-edge portrait of a young South Asian male software architect and AI workflow engineer, 20s, dark hair, wearing a sleek matte-black crewneck t-shirt.
+
+COMPOSITION & FRAMING:
+- Positioned on the LEFT THIRD of the wide composition, shoulders angled at 15 degrees, head turned directly to the camera with an intense, curious, visionary expression.
+- Right two-thirds of the image smoothly fades into a pure deep purple-black void (#0f0a1c to #17102b), leaving uncluttered dark space for bold text.
+- Aspect ratio: 16:9 landscape format (1200x630).
+
+LIGHTING & COLOR HARMONY:
+- Dual-tone edge illumination: Vibrant electric violet (#a855f7) primary rim light outlining the silhouette and hair, paired with subtle acid green / lime (#a3e635) kicker highlight on the collar and jaw.
+- Clean neutral studio softbox illumination on facial features, ensuring natural skin realism without color bleeding.
+- Deep, clean cybernetic studio backdrop with soft dark ambient volumetric haze.
+
+TECHNICAL QUALITY:
+- 35mm full-frame Sony Alpha A1 portrait, Sony 85mm G Master f/1.4, cinematic film grade, hyper-realistic, 8k resolution, razor-sharp focus on the eyes with natural reflections.

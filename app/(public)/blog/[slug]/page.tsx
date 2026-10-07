@@ -6,7 +6,6 @@ import { getPostBySlug } from "@/lib/actions/blog";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
 import { format } from "date-fns";
-import { AdSense } from "@/components/google-adsense";
 import { ScrollReveal, StaggerReveal } from "@/components/gsap/scroll-reveal";
 
 import { Metadata } from "next";
@@ -172,20 +171,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <Section className={post.coverImage?.url ? "pt-0 md:pt-8" : "pt-8 md:pt-16"}>
                 <Container className="max-w-3xl">
                     <ScrollReveal>
-                        <div className="my-8 rounded-xl overflow-hidden bg-surface/50 border border-white/5 p-4 flex items-center justify-center min-h-[120px]">
-                            {/* Middle Ad - Placed before post content */}
-                            <AdSense
-                                dataAdClient="ca-pub-9280900149424904"
-                                dataAdSlot="6208907700"
-                                dataAdFormat="fluid"
-                                dataAdLayout="in-article"
-                                style={{ display: "block", textAlign: "center", width: "100%" }}
-                                className="adsbygoogle"
-                            />
-                        </div>
-                    </ScrollReveal>
-
-                    <ScrollReveal delay={0.2}>
                         <div className="prose prose-invert prose-lg md:prose-xl max-w-none text-muted-foreground prose-headings:text-foreground prose-headings:font-heading prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-img:rounded-xl prose-img:shadow-lg prose-pre:border prose-pre:border-white/10">
                             {post.contentFormat === 'markdown' ? (
                                 <MarkdownRenderer content={post.markdownContent || ''} />
@@ -197,7 +182,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                     {/* Tags */}
                     {post.secondaryTags?.length > 0 && (
-                        <ScrollReveal delay={0.3}>
+                        <ScrollReveal delay={0.2}>
                             <div className="mt-12 pt-8 border-t border-white/5 flex flex-wrap gap-2">
                                 {post.secondaryTags.map((tag: string) => (
                                     <Link key={tag} href={`/blog?tag=${encodeURIComponent(tag)}`} className="px-3 py-1.5 bg-surface border border-white/5 rounded-lg text-xs font-medium text-muted-foreground uppercase tracking-wider hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all duration-300">
@@ -207,20 +192,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             </div>
                         </ScrollReveal>
                     )}
-
-                    <ScrollReveal delay={0.4}>
-                        <div className="my-12 rounded-xl overflow-hidden bg-surface/50 border border-white/5 p-4 flex items-center justify-center min-h-[120px]">
-                            {/* Down Ad */}
-                            <AdSense
-                                dataAdClient="ca-pub-9280900149424904"
-                                dataAdSlot="6208907700"
-                                dataAdFormat="fluid"
-                                dataAdLayout="in-article"
-                                style={{ display: "block", textAlign: "center", width: "100%" }}
-                                className="adsbygoogle"
-                            />
-                        </div>
-                    </ScrollReveal>
                 </Container>
             </Section>
 

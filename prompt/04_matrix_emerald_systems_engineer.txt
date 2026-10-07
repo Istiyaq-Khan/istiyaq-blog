@@ -1,0 +1,18 @@
+# PROMPT 4: MATRIX EMERALD (SYSTEMS ENGINEERING & CYBERNETICS)
+# Target Model: Gemini Imagen 3 / Google AI Studio (Image Generation)
+# Style: Matrix Emerald (Acid emerald / cyber lime rim light, deep carbon void, technical hacker aesthetic)
+
+A high-impact cinematic portrait of a young South Asian male systems engineer and technical builder, 20s, short black hair, wearing a dark minimal black t-shirt.
+
+COMPOSITION & FRAMING:
+- Positioned on the LEFT THIRD of the wide 16:9 canvas, engaging directly with the viewer through clear, direct eye contact.
+- Right two-thirds is a dark, smooth carbon black space (#050e09 to #0b1c13) that allows white typography and badges to achieve peak readability.
+- 16:9 landscape aspect ratio.
+
+LIGHTING & COLOR HARMONY:
+- Crisp electric emerald green (#10b981) and vivid cyber lime (#84cc16) rim lighting along the hair and shoulder edges.
+- Neutral, crisp studio fill light on the face to maintain clean, lifelike facial texture.
+- Dark minimalist background with very faint, out-of-focus vertical terminal or circuit bokeh lines deep in the shadow.
+
+TECHNICAL QUALITY:
+- Leica SL2 with APO-Summicron-SL 75mm f/2 ASPH, cinematic lighting, sharp micro-contrast, photorealistic studio portrait, zero distortion, 8k render.

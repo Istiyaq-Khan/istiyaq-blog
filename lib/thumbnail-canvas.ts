@@ -4,7 +4,7 @@
  * Self-contained, zero-server-compute, font-race-hardened, CORS-safe.
  */
 
-export type ThumbnailPresetId = "cyber-obsidian" | "solar-amber" | "electric-violet";
+export type ThumbnailPresetId = "cyber-obsidian" | "solar-amber" | "electric-violet" | "matrix-emerald";
 
 export interface ThumbnailPreset {
     id: ThumbnailPresetId;
@@ -56,6 +56,18 @@ export const THUMBNAIL_PRESETS: Record<ThumbnailPresetId, ThumbnailPreset> = {
         badgeBorder: "#a855f7",
         glowColor: "rgba(168, 85, 247, 0.35)",
     },
+    "matrix-emerald": {
+        id: "matrix-emerald",
+        name: "Matrix Emerald",
+        background: "#050e09",
+        surfaceCard: "#0b1c13",
+        text: "#ffffff",
+        accentRim: "#10b981",
+        mutedText: "#94a3b8",
+        badgeBg: "rgba(16, 185, 129, 0.15)",
+        badgeBorder: "#10b981",
+        glowColor: "rgba(16, 185, 129, 0.35)",
+    },
 };
 
 export interface ThumbnailOptions {
@@ -66,6 +78,7 @@ export interface ThumbnailOptions {
     siteDomain?: string;
     readingTime?: number;
     avatarSrc?: string;
+    customBgUrl?: string;
 }
 
 export const CANVAS_WIDTH = 1200;
@@ -374,29 +387,53 @@ export async function renderThumbnailToCanvas(
     // 0. Await web fonts
     await ensureFontsLoaded();
 
-    // 1. Background Fill with subtle depth gradient
-    const bgGradient = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    bgGradient.addColorStop(0, preset.background);
-    bgGradient.addColorStop(0.6, preset.surfaceCard);
-    bgGradient.addColorStop(1, preset.background);
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // 1. Render Background: Custom AI Generated BG OR Procedural Studio Silhouette
+    let customBgLoaded = false;
+    if (options.customBgUrl) {
+        try {
+            const bgImg = await loadImageSafe(options.customBgUrl);
+            ctx.drawImage(bgImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            customBgLoaded = true;
 
-    // 2. Subtle architectural grid / tech dots (IKK Studio engineering vibe)
-    ctx.save();
-    ctx.fillStyle = "rgba(255, 255, 255, 0.02)";
-    const dotSpacing = 36;
-    for (let x = 400; x < CANVAS_WIDTH - 40; x += dotSpacing) {
-        for (let y = 40; y < CANVAS_HEIGHT - 40; y += dotSpacing) {
-            ctx.beginPath();
-            ctx.arc(x, y, 1, 0, Math.PI * 2);
-            ctx.fill();
+            // High-CTR split scrim: Keep subject on left vibrant, dark scrim on right for crisp typography
+            const scrim = ctx.createLinearGradient(320, 0, CANVAS_WIDTH, 0);
+            scrim.addColorStop(0, "rgba(0, 0, 0, 0)");
+            scrim.addColorStop(0.25, "rgba(0, 0, 0, 0.55)");
+            scrim.addColorStop(0.65, preset.background + "ee");
+            scrim.addColorStop(1, preset.background);
+
+            ctx.fillStyle = scrim;
+            ctx.fillRect(320, 0, CANVAS_WIDTH - 320, CANVAS_HEIGHT);
+        } catch {
+            customBgLoaded = false;
         }
     }
-    ctx.restore();
 
-    // 3. Focal Point 1 (Left 32%): Author Portrait Silhouette & Glow
-    await drawAuthorSilhouette(ctx, preset, options.avatarSrc);
+    if (!customBgLoaded) {
+        // Default Procedural Background Fill with subtle depth gradient
+        const bgGradient = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        bgGradient.addColorStop(0, preset.background);
+        bgGradient.addColorStop(0.6, preset.surfaceCard);
+        bgGradient.addColorStop(1, preset.background);
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Subtle architectural grid / tech dots (IKK Studio engineering vibe)
+        ctx.save();
+        ctx.fillStyle = "rgba(255, 255, 255, 0.02)";
+        const dotSpacing = 36;
+        for (let x = 400; x < CANVAS_WIDTH - 40; x += dotSpacing) {
+            for (let y = 40; y < CANVAS_HEIGHT - 40; y += dotSpacing) {
+                ctx.beginPath();
+                ctx.arc(x, y, 1, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        ctx.restore();
+
+        // Focal Point 1 (Left 32%): Author Portrait Silhouette & Glow
+        await drawAuthorSilhouette(ctx, preset, options.avatarSrc);
+    }
 
     // 4. Focal Point 2 (Right 68%): Content & Typography Hierarchy
     const contentLeft = 430;

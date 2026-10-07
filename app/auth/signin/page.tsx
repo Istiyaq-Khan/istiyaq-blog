@@ -80,19 +80,6 @@ export default function SignInPage() {
                                 {loading ? "Signing in..." : "Sign in with Email"}
                             </Button>
                         </form>
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t" />
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-card px-2 text-muted-foreground">
-                                    Or continue with
-                                </span>
-                            </div>
-                        </div>
-                        <Button variant="outline" type="button" onClick={() => signIn("github", { callbackUrl: "/admin" })}>
-                            GitHub
-                        </Button>
                     </CardContent>
                 </Card>
             </Container>

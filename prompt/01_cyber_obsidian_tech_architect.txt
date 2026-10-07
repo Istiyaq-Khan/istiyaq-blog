@@ -1,0 +1,18 @@
+# PROMPT 1: CYBER OBSIDIAN (TECH ARCHITECT & AGENTIC AI)
+# Target Model: Gemini Imagen 3 / Google AI Studio (Image Generation)
+# Style: Cyber Obsidian (Cyan/Teal rim lighting, deep void background, high-CTR tech aesthetics)
+
+A high-contrast cinematic portrait of a young South Asian male tech founder (Istiyaq Khan Razin), 20s, short black hair, neat light mustache, wearing a clean matte black minimalist crewneck t-shirt. 
+
+COMPOSITION & FRAMING:
+- Positioned on the LEFT THIRD of the frame, angled slightly toward the camera with a direct, confident, focused gaze.
+- The right two-thirds of the image transitions into a clean, deep void with subtle atmospheric dark slate fog (#090d16 to #111726), leaving negative space.
+- Aspect ratio: 16:9 (horizontal landscape format, 1200x630 composition).
+
+LIGHTING & COLOR HARMONY:
+- Intense electric cyan (#00f0ff) and neon teal rim lighting tracing the silhouette, hair, and shoulder from behind.
+- Soft, natural neutral fill light on the face to maintain realistic skin tones, while keeping dramatic shadows on the side.
+- High contrast, deep obsidian background with no clutter. Subtle out-of-focus hexagonal bokeh or faint geometric holographic grids in the deep background.
+
+TECHNICAL QUALITY:
+- Shot on 85mm f/1.4 prime lens, shallow depth of field, tack-sharp eye focus, editorial tech magazine photography, photorealistic, 8k resolution, cinematic color grading, zero digital noise.

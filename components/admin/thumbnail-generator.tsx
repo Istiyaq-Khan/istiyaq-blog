@@ -10,7 +10,8 @@ import {
     ThumbnailPresetId,
 } from "@/lib/thumbnail-canvas";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Download, RefreshCw, Image as ImageIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Sparkles, Download, RefreshCw, Image as ImageIcon, SlidersHorizontal, X } from "lucide-react";
 
 interface ThumbnailGeneratorProps {
     title: string;
@@ -39,15 +40,33 @@ export function ThumbnailGenerator({
     const [activePreset, setActivePreset] = useState<ThumbnailPresetId>("cyber-obsidian");
     const [isRendering, setIsRendering] = useState(false);
     const [blobSizeKb, setBlobSizeKb] = useState<number | null>(null);
-    const [lastBlob, setLastBlob] = useState<Blob | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const [customBgUrl, setCustomBgUrl] = useState<string>("");
+    const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
-    const renderCanvas = useCallback(async () => {
+    // Stable references to prevent render cascades and infinite loops
+    const onBlobReadyRef = useRef(onBlobReady);
+    onBlobReadyRef.current = onBlobReady;
+
+    const onApplyAsCoverRef = useRef(onApplyAsCover);
+    onApplyAsCoverRef.current = onApplyAsCover;
+
+    const lastBlobRef = useRef<Blob | null>(null);
+    const lastRenderKeyRef = useRef<string>("");
+    const isRenderingRef = useRef(false);
+
+    const performRender = useCallback(async (force = false) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
+        const currentKey = `${title}|${category}|${activePreset}|${readingTime}|${authorName}|${customBgUrl.trim()}`;
+        if (!force && lastRenderKeyRef.current === currentKey) {
+            return; // Skip duplicate renders
+        }
+
+        if (isRenderingRef.current) return;
+        isRenderingRef.current = true;
         setIsRendering(true);
+
         try {
             await renderThumbnailToCanvas(canvas, {
                 title: title || "Untitled Post",
@@ -57,49 +76,39 @@ export function ThumbnailGenerator({
                 siteDomain,
                 readingTime,
                 avatarSrc,
+                customBgUrl: customBgUrl.trim() || undefined,
             });
 
-            // Export WebP blob for size & downstream usage
+            lastRenderKeyRef.current = currentKey;
+
+            // Export WebP blob safely
             const blob = await exportCanvasToWebPBlob(canvas, 0.85);
-            setLastBlob(blob);
+            lastBlobRef.current = blob;
             setBlobSizeKb(Math.round((blob.size / 1024) * 10) / 10);
 
-            if (previewUrl) {
-                URL.revokeObjectURL(previewUrl);
-            }
-            const newUrl = URL.createObjectURL(blob);
-            setPreviewUrl(newUrl);
-
-            if (onBlobReady) {
-                onBlobReady(blob);
+            if (onBlobReadyRef.current) {
+                onBlobReadyRef.current(blob);
             }
         } catch (error) {
             console.error("Failed to render thumbnail canvas:", error);
         } finally {
+            isRenderingRef.current = false;
             setIsRendering(false);
         }
-    }, [title, category, activePreset, authorName, siteDomain, readingTime, avatarSrc, onBlobReady, previewUrl]);
+    }, [title, category, activePreset, authorName, siteDomain, readingTime, avatarSrc, customBgUrl]);
 
-    // 150ms debounce on input changes
+    // Debounced render on user input change
     useEffect(() => {
-        if (debounceTimerRef.current) {
-            clearTimeout(debounceTimerRef.current);
-        }
+        const timer = setTimeout(() => {
+            performRender();
+        }, 200);
 
-        debounceTimerRef.current = setTimeout(() => {
-            renderCanvas();
-        }, 150);
-
-        return () => {
-            if (debounceTimerRef.current) {
-                clearTimeout(debounceTimerRef.current);
-            }
-        };
-    }, [title, category, activePreset, readingTime, renderCanvas]);
+        return () => clearTimeout(timer);
+    }, [performRender]);
 
     // Cycle / shuffle presets
     const handleShufflePreset = () => {
-        const presets: ThumbnailPresetId[] = ["cyber-obsidian", "solar-amber", "electric-violet"];
+        const presets: ThumbnailPresetId[] = ["cyber-obsidian", "solar-amber", "electric-violet", "matrix-emerald"];
         const currentIndex = presets.indexOf(activePreset);
         const nextIndex = (currentIndex + 1) % presets.length;
         setActivePreset(presets[nextIndex]);
@@ -114,9 +123,9 @@ export function ThumbnailGenerator({
     };
 
     const handleApplyCover = () => {
-        if (lastBlob && canvasRef.current && onApplyAsCover) {
+        if (lastBlobRef.current && canvasRef.current && onApplyAsCoverRef.current) {
             const dataUrl = canvasRef.current.toDataURL("image/webp", 0.85);
-            onApplyAsCover(lastBlob, dataUrl);
+            onApplyAsCoverRef.current(lastBlobRef.current, dataUrl);
         }
     };
 
@@ -151,7 +160,7 @@ export function ThumbnailGenerator({
                 />
 
                 {isRendering && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-[2px] transition-opacity">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px] transition-opacity">
                         <RefreshCw className="h-6 w-6 animate-spin text-primary" />
                     </div>
                 )}
@@ -159,7 +168,7 @@ export function ThumbnailGenerator({
 
             {/* Preset Selector & Controls */}
             <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
                     {(Object.keys(THUMBNAIL_PRESETS) as ThumbnailPresetId[]).map((presetKey) => {
                         const preset = THUMBNAIL_PRESETS[presetKey];
                         const isActive = activePreset === presetKey;
@@ -199,6 +208,18 @@ export function ThumbnailGenerator({
                 <div className="flex items-center gap-1.5">
                     <Button
                         type="button"
+                        variant="ghost"
+                        size="sm"
+                        className={`h-7 px-2 text-xs ${showAdvanced ? "text-primary bg-primary/10" : "text-muted-foreground"}`}
+                        onClick={() => setShowAdvanced(!showAdvanced)}
+                        title="Custom AI background settings"
+                    >
+                        <SlidersHorizontal className="h-3 w-3 mr-1" />
+                        Custom BG
+                    </Button>
+
+                    <Button
+                        type="button"
                         variant="outline"
                         size="sm"
                         className="h-7 px-2 text-xs border-border/80"
@@ -224,6 +245,48 @@ export function ThumbnailGenerator({
                     )}
                 </div>
             </div>
+
+            {/* Custom AI Background Settings */}
+            {showAdvanced && (
+                <div className="rounded-lg border border-border/60 bg-surface-elevated/80 p-3 space-y-2 animate-in fade-in-0 slide-in-from-top-2 duration-200">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-foreground flex items-center gap-1.5">
+                            <ImageIcon className="h-3.5 w-3.5 text-primary" />
+                            Custom AI Background (Gemini Imagen 3 / URL)
+                        </span>
+                        {customBgUrl && (
+                            <button
+                                type="button"
+                                onClick={() => setCustomBgUrl("")}
+                                className="text-[11px] text-muted-foreground hover:text-destructive flex items-center gap-1"
+                            >
+                                <X className="h-3 w-3" />
+                                Reset to Silhouette
+                            </button>
+                        )}
+                    </div>
+                    <div className="flex gap-2">
+                        <Input
+                            placeholder="e.g. /uploads/my-ai-portrait-bg.webp or https://..."
+                            value={customBgUrl}
+                            onChange={(e) => setCustomBgUrl(e.target.value)}
+                            className="h-8 text-xs bg-background"
+                        />
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-8 text-xs px-3"
+                            onClick={() => performRender(true)}
+                        >
+                            Apply
+                        </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">
+                        Tip: Generate your custom portrait background using prompts in the <span className="font-mono text-primary">prompt/</span> folder, then paste the image URL here for a 100% personalized high-CTR social card.
+                    </p>
+                </div>
+            )}
         </div>
     );
 }
